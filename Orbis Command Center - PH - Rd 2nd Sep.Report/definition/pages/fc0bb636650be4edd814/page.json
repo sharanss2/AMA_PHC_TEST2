@@ -1,8 +1,0 @@
-{
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
-  "name": "fc0bb636650be4edd814",
-  "displayName": "Testing UI States",
-  "displayOption": "FitToPage",
-  "height": 720,
-  "width": 1280
-}

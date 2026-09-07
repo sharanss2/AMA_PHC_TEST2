@@ -1,5 +1,0 @@
-role Dischem
-	modelPermission: read
-
-	annotation PBI_Id = 38ac07b8b88848f0852f94f3b5c7e986
-

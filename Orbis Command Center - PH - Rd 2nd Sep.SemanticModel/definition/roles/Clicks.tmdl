@@ -1,5 +1,0 @@
-role Clicks
-	modelPermission: read
-
-	annotation PBI_Id = 96b9d58818ef4aeeaa28a5dd24c7b17b
-

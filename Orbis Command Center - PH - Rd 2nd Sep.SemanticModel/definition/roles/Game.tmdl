@@ -1,5 +1,0 @@
-role Game
-	modelPermission: read
-
-	annotation PBI_Id = 6d39c5d3966340c69ae230dd9a532edc
-
