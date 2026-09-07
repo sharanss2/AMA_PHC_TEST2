@@ -1,0 +1,71 @@
+table 'Current date/time'
+	lineageTag: 83d3f158-8543-4455-b9dc-a9b7c5c1f06b
+
+	measure Test =
+			
+			COUNTROWS(pos_ph_data_01)
+		formatString: 0
+		lineageTag: df7e9f33-3035-4509-9a60-87e99319f6a7
+
+	measure 'Debug Offtake Base' = ```
+			
+			[Offtake PH]
+			
+			```
+		lineageTag: 7b6629b5-0b35-4a7d-b8a2-04941f894180
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Latest Offtake' = ```
+			
+			CALCULATE( MAX(pos_ph_data_01[period_end_date]), REMOVEFILTERS(pos_ph_data_01) )
+			
+			```
+		formatString: General Date
+		lineageTag: 8044a5ea-a618-4ae2-9fbd-6d3205ca802d
+
+	measure 'Latest Sellout' = ```
+			
+			CALCULATE( MAX(rtdx_ph_data_01[time_period_end_date]), REMOVEFILTERS(rtdx_ph_data_01) )
+			
+			```
+		formatString: General Date
+		lineageTag: c4e17107-726e-4608-a8f0-4cf8a0d20290
+
+	measure 'Latest Shipment' = ```
+			
+			CALCULATE( MAX(shipmenets_ph_data_01[GI_Date]), REMOVEFILTERS(shipmenets_ph_data_01) )
+			
+			```
+		formatString: General Date
+		lineageTag: 853a2006-1a3d-442b-9141-241f86d7e691
+
+	column 'Current Date/Time'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 74b11c4b-2c0d-4b7f-a41f-2dbb66b859b0
+		summarizeBy: none
+		sourceColumn: Current Date/Time
+
+		variation Variation
+			isDefault
+			relationship: bf4215b6-c6ea-4fb7-94a2-c9c6ced66b75
+			defaultHierarchy: LocalDateTable_ef7757e0-7927-416b-9927-4c71c1ac0696.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Current date/time' = m
+		mode: import
+		source =
+				let
+				    Source = DateTimeZone.SwitchZone ( DateTimeZone.UtcNow(), +2, 00),
+				    #"Converted to Table" = #table(1, {{Source}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "Current Date/Time"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Current Date/Time", type datetimezone}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

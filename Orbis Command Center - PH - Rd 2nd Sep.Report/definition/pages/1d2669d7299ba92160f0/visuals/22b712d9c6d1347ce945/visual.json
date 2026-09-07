@@ -1,0 +1,522 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "22b712d9c6d1347ce945",
+  "position": {
+    "x": 21.795665634674922,
+    "y": 521.77502579979353,
+    "z": 8000,
+    "height": 165.77915376676987,
+    "width": 1230.4643962848297,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DateTable"
+                    }
+                  },
+                  "Property": "Month Year"
+                }
+              },
+              "queryRef": "DateTable.Month Year",
+              "nativeQueryRef": "Month Year1",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Slicer Month Year"
+                    }
+                  },
+                  "Property": "Month Year"
+                }
+              },
+              "queryRef": "Slicer Month Year.Month Year",
+              "nativeQueryRef": "Month Year",
+              "active": false
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "orbis_dim_ph_01"
+                    }
+                  },
+                  "Property": "Brand"
+                }
+              },
+              "queryRef": "orbis_dim_ph_01.Brand",
+              "nativeQueryRef": "Brand",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "orbis_dim_ph_01"
+                    }
+                  },
+                  "Property": "Segment"
+                }
+              },
+              "queryRef": "orbis_dim_ph_01.Segment",
+              "nativeQueryRef": "Segment",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "orbis_dim_ph_01"
+                    }
+                  },
+                  "Property": "BrandForm"
+                }
+              },
+              "queryRef": "orbis_dim_ph_01.BrandForm",
+              "nativeQueryRef": "BrandForm",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "orbis_dim_ph_01"
+                    }
+                  },
+                  "Property": "Item_gtin"
+                }
+              },
+              "queryRef": "orbis_dim_ph_01.Item_gtin",
+              "nativeQueryRef": "Item_gtin",
+              "active": false
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures table"
+                    }
+                  },
+                  "Property": "Offtake PH PXM"
+                }
+              },
+              "queryRef": "Measures table.Offtake PH PXM",
+              "nativeQueryRef": "Actuals",
+              "displayName": "Actuals",
+              "format": "0.0"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures table"
+                    }
+                  },
+                  "Property": "Offtake PH IYA PXM"
+                }
+              },
+              "queryRef": "Measures table.Offtake PH IYA PXM",
+              "nativeQueryRef": "IYA",
+              "displayName": "IYA",
+              "format": "0.0"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Measures table"
+                  }
+                },
+                "Property": "Offtake PH IYA PXM"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "orbis_dim_ph_01.Brand"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "orbis_dim_ph_01"
+                    }
+                  },
+                  "Property": "Brand"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "orbis_dim_ph_01.Segment"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "orbis_dim_ph_01"
+                    }
+                  },
+                  "Property": "Segment"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "orbis_dim_ph_01.BrandForm"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "orbis_dim_ph_01.Item_gtin"
+            ],
+            "isCollapsed": true
+          }
+        ],
+        "root": {
+          "children": [
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "'NEUROBION'"
+                  }
+                }
+              ],
+              "isToggled": true,
+              "children": [
+                {
+                  "identityValues": [
+                    {
+                      "Literal": {
+                        "Value": "'TABLET'"
+                      }
+                    }
+                  ],
+                  "isToggled": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "objects": {
+      "grid": [
+        {
+          "properties": {
+            "gridHorizontal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridVertical": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridHorizontalWeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "gridHorizontalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "gridVerticalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Conditional": {
+                      "Cases": [
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 3,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "Measures table"
+                                    }
+                                  },
+                                  "Property": "Offtake PH IYA PXM"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "98.5D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#D64550'"
+                            }
+                          }
+                        },
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 2,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "Measures table"
+                                    }
+                                  },
+                                  "Property": "Offtake PH IYA PXM"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "101.5D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#00FF00'"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "Measures table.Offtake PH IYA PXM"
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "105.06651884700665D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "total": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DateTable"
+                        }
+                      },
+                      "Property": "Month Year"
+                    }
+                  }
+                ]
+              }
+            ],
+            "metadata": "Measures table.Offtake PH PXM"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "130.90465720994192D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "total": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DateTable"
+                        }
+                      },
+                      "Property": "Month Year"
+                    }
+                  }
+                ]
+              }
+            ],
+            "metadata": "Measures table.Offtake PH IYA PXM"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "165.55555555555554D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "orbis_dim_ph_01.Brand"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "3D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Brand Form'"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

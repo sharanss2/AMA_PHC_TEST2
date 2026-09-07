@@ -1,0 +1,43 @@
+model Model
+	culture: en-IN
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-SG
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["Time Period","Switcher Table","Current date/time","shipmenets_ph_data_01","pos_ph_data_01","rtdx_ph_data_01","orbis_dim_ph_01","ph_target_01"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","MCP-PBIModeling","DevMode"]
+
+ref table DateTable
+ref table 'Measures table'
+ref table DateTableTemplate_a61cc77b-2c8f-4633-b0f9-1f1925bc0aaf
+ref table 'Time Period'
+ref table 'Switcher Table'
+ref table 'Slicer Month Year'
+ref table 'Current date/time'
+ref table LocalDateTable_ef7757e0-7927-416b-9927-4c71c1ac0696
+ref table LocalDateTable_977c11e3-09a2-4133-b5e8-560897410eb5
+ref table shipmenets_ph_data_01
+ref table pos_ph_data_01
+ref table rtdx_ph_data_01
+ref table LocalDateTable_acb7e0f5-8c39-4285-8c1b-f7db9bf98096
+ref table LocalDateTable_7049c086-3eda-424b-9dae-14f30d26f89d
+ref table orbis_dim_ph_01
+ref table ph_target_01
+ref table 'Measure Selector'
+ref table LocalDateTable_e65cf1cb-0382-4716-a694-a98c373301f4
+
+ref role ALL
+ref role Clicks
+ref role Dischem
+ref role Game
+ref role Makro
+ref role PicknPay
+ref role Shoprite
+
+ref cultureInfo en-IN
+

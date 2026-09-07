@@ -1,0 +1,101 @@
+table 'Slicer Month Year'
+	lineageTag: ad6e71b8-131a-4807-a508-70e2d1317392
+
+	column 'Month Year'
+		lineageTag: a05607b0-e583-4c6a-b76b-ead00ab26434
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DateTable[Month Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		formatString: General Date
+		lineageTag: 43121313-514b-4cbc-b248-8ead94acbd6e
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DateTable[Date]
+
+		variation Variation
+			isDefault
+			relationship: de48af2a-8865-41c2-b550-829eb41fab15
+			defaultHierarchy: LocalDateTable_977c11e3-09a2-4133-b5e8-560897410eb5.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		formatString: 0
+		lineageTag: 547c47ef-e3ce-47b0-809e-06f33d81cee2
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: DateTable[Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		formatString: 0
+		lineageTag: 9de50ce5-1df6-4ed3-a947-5c6d3c991c49
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: DateTable[Month Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		lineageTag: 111b1489-3039-44d5-aa87-8d75cef03ee5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DateTable[Month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Current Month Year'
+		lineageTag: f7e7e91d-1ac7-4ed0-9bef-1c3f8f5cb4ec
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DateTable[Current Month Year]
+		sortByColumn: RptMonthYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column RptMonthYear
+		formatString: 0
+		lineageTag: 38a3d0e4-cc4a-4415-9256-34766e38f533
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: DateTable[RptMonthYear]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year-Month
+		lineageTag: effbf366-cc04-4d4f-a039-6a23bdec5847
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DateTable[Year-Month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sort Order'
+		formatString: 0
+		lineageTag: 87ed1552-0c96-4ff8-8c4c-00cc86ab2507
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: DateTable[Sort Order]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Index'
+		formatString: 0
+		lineageTag: 9d10e336-9780-4178-8851-f0fa211064b9
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: DateTable[Month Index]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Slicer Month Year' = calculated
+		mode: import
+		source = DateTable
+
+	annotation PBI_Id = ee3f94bb752549dab70d8ec06ee5c05b
+

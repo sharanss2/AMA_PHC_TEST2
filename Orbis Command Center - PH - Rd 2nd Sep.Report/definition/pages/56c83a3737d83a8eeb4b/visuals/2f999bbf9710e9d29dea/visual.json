@@ -1,0 +1,43 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "2f999bbf9710e9d29dea",
+  "position": {
+    "x": 409.25925925925924,
+    "y": 0.026761620240473391,
+    "z": 11000,
+    "height": 96.666666666666671,
+    "width": 186.66666666666669,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures table"
+                    }
+                  },
+                  "Property": "Formatted Sellout Value"
+                }
+              },
+              "queryRef": "Measures table.Formatted Sellout Value",
+              "nativeQueryRef": "Sellout",
+              "displayName": "Sellout"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "4163ac61fb3b95144408"
+}

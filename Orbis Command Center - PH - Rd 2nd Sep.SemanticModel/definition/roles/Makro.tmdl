@@ -1,0 +1,5 @@
+role Makro
+	modelPermission: read
+
+	annotation PBI_Id = 66978ffe974e4224861f2c47bd36f419
+

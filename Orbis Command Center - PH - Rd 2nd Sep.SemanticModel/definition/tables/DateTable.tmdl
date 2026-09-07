@@ -1,0 +1,135 @@
+table DateTable
+	lineageTag: 9f72a47b-9c84-402b-b325-15ec765c1925
+	dataCategory: Time
+
+	column Date
+		isKey
+		formatString: Short Date
+		lineageTag: 425f467c-13fa-4310-b7f3-4cf67238ef0b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		formatString: 0
+		lineageTag: 5d7028b7-f66e-48d6-8d1e-1d299336fdc8
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		formatString: 0
+		lineageTag: a97d383f-eb29-4f21-a053-9a55c99414b8
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		lineageTag: e9daa68a-c63f-4e90-9ab1-107e31a0b874
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Year'
+		dataType: string
+		lineageTag: c3cb75bf-2f44-4e88-8e51-46ce04e37d0e
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Year]
+		sortByColumn: RptMonthYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Current Month Year' = IF(DateTable[Year] = YEAR(TODAY()) && DateTable[Month Number] = MONTH(TODAY()), "Current Month", FORMAT(DateTable[Date], "MMMM, YYYY"))
+		lineageTag: 2f3c147d-be2e-445a-b78a-e524a0df3eb9
+		summarizeBy: none
+		sortByColumn: RptMonthYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column RptMonthYear
+		formatString: 0
+		lineageTag: ab6d176f-80fb-4f0f-a375-4e1a7b15e2ff
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [RptMonthYear]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year-Month
+		lineageTag: 95e9b16b-cc08-486c-85e1-a4a7449cb792
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year-Month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sort Order'
+		formatString: 0
+		lineageTag: e212eccf-a0b1-4359-9e07-07b5c9d7f4ea
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Sort Order]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Index' =
+			
+			VAR CurrentMonth =
+			   DATE(YEAR('DateTable'[Date]), MONTH('DateTable'[Date]), 1)
+			RETURN
+			RANKX(
+			   ALL('DateTable'[Date]),
+			   DATE(YEAR('DateTable'[Date]), MONTH('DateTable'[Date]), 1),
+			   CurrentMonth,
+			   ASC,
+			   DENSE
+			)
+		formatString: 0
+		lineageTag: 8a16cd9e-634a-4608-bfdb-2c6820614a67
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DateTable = calculated
+		mode: import
+		source =
+				
+				// VAR BaseCalendar = CALENDARAUTO(4)
+				// RETURN
+				// GENERATE (
+				//     BaseCalendar,
+				//     VAR BaseDate = [Date]
+				//     RETURN ROW (
+				//         "Year", YEAR(BaseDate),
+				//         "Month", FORMAT(BaseDate, "MMMM"),
+				//         "Month Number", MONTH(BaseDate),
+				//         "Quarter", "Q" & FORMAT(BaseDate, "Q"),
+				//         "Fiscal Year", IF(MONTH(BaseDate) <= 6, YEAR(BaseDate), YEAR(BaseDate) + 1),
+				//         "Month Year", FORMAT(BaseDate, "MMM-YY"),
+				//         "RptMonthYear", INT( FORMAT([Date], "YYYYMM"))
+				//     )
+				// )
+				ADDCOLUMNS (
+				    CALENDAR (DATE(2022, 6, 1), EOMONTH(TODAY(), 0)),
+				    "Year", YEAR([Date]),
+				    "Month Number", MONTH([Date]),
+				    "Month", FORMAT([Date], "MMM"),
+				    "RptMonthYear", INT( FORMAT([Date], "YYYYMM")),
+				    "Month Year", FORMAT([Date], "MMM YYYY"),
+				    "Year-Month", FORMAT([Date], "YYYY-MM"),
+				    "Sort Order", YEAR([Date]) * 100 + MONTH([Date])
+				)
+
+	annotation PBI_Id = f3cb2a23bbca4ce59dac5acbab3322df
+

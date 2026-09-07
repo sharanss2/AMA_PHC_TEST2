@@ -1,0 +1,489 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "f37f00b362c15bb2087e",
+  "position": {
+    "x": 13.95352798398887,
+    "y": 119.76778186257114,
+    "z": 7000,
+    "height": 175.58189379852664,
+    "width": 1244.1895785723409,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Time Period"
+                    }
+                  },
+                  "Property": "Period"
+                }
+              },
+              "queryRef": "Time Period.Period",
+              "nativeQueryRef": "Period",
+              "active": true
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "orbis_dim_ph_01"
+                    }
+                  },
+                  "Property": "Channel"
+                }
+              },
+              "queryRef": "orbis_dim_ph_01.Channel",
+              "nativeQueryRef": "Channel",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "orbis_dim_ph_01"
+                    }
+                  },
+                  "Property": "customer"
+                }
+              },
+              "queryRef": "orbis_dim_ph_01.customer",
+              "nativeQueryRef": "customer",
+              "active": false
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "orbis_dim_ph_01"
+                    }
+                  },
+                  "Property": "Brand"
+                }
+              },
+              "queryRef": "orbis_dim_ph_01.Brand",
+              "nativeQueryRef": "Brand",
+              "active": false
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "orbis_dim_ph_01"
+                    }
+                  },
+                  "Property": "Segment"
+                }
+              },
+              "queryRef": "orbis_dim_ph_01.Segment",
+              "nativeQueryRef": "Segment",
+              "active": false
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "orbis_dim_ph_01"
+                    }
+                  },
+                  "Property": "BrandForm"
+                }
+              },
+              "queryRef": "orbis_dim_ph_01.BrandForm",
+              "nativeQueryRef": "BrandForm",
+              "active": false
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "orbis_dim_ph_01"
+                    }
+                  },
+                  "Property": "Item_gtin"
+                }
+              },
+              "queryRef": "orbis_dim_ph_01.Item_gtin",
+              "nativeQueryRef": "Item_gtin",
+              "active": false
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures table"
+                    }
+                  },
+                  "Property": "Shipments PH PXM"
+                }
+              },
+              "queryRef": "Measures table.Shipments PH PXM",
+              "nativeQueryRef": "Actuals",
+              "displayName": "Actuals",
+              "format": "0.0"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures table"
+                    }
+                  },
+                  "Property": "Shipments PH IYA PXM"
+                }
+              },
+              "queryRef": "Measures table.Shipments PH IYA PXM",
+              "nativeQueryRef": "IYA",
+              "displayName": "IYA",
+              "format": "0.0"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "orbis_dim_ph_01"
+                  }
+                },
+                "Property": "Channel"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "orbis_dim_ph_01.Channel"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "orbis_dim_ph_01"
+                    }
+                  },
+                  "Property": "Channel"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "orbis_dim_ph_01.customer"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "orbis_dim_ph_01.Brand"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "orbis_dim_ph_01.Segment"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "orbis_dim_ph_01"
+                    }
+                  },
+                  "Property": "Segment"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "orbis_dim_ph_01.BrandForm"
+            ],
+            "isCollapsed": true
+          },
+          {
+            "queryRefs": [
+              "orbis_dim_ph_01.Item_gtin"
+            ],
+            "isCollapsed": true
+          }
+        ],
+        "root": {}
+      }
+    ],
+    "objects": {
+      "grid": [
+        {
+          "properties": {
+            "gridHorizontal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridVertical": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridHorizontalWeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "gridHorizontalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "gridVerticalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {},
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Measures table.Shipments PH IYA PXM"
+          }
+        },
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Conditional": {
+                      "Cases": [
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 3,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "Measures table"
+                                    }
+                                  },
+                                  "Property": "Shipments PH IYA PXM"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "98.5D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#D64550'"
+                            }
+                          }
+                        },
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 2,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "Measures table"
+                                    }
+                                  },
+                                  "Property": "Shipments PH IYA PXM"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "101.5D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#00FF00'"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "Measures table.Shipments PH IYA PXM"
+          }
+        },
+        {
+          "properties": {
+            "valuesOnRow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "149.7627520889004D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "orbis_dim_ph_01.Channel"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "3D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Channel'"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

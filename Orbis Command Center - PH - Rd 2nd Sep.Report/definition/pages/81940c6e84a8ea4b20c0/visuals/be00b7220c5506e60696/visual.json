@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "be00b7220c5506e60696",
+  "position": {
+    "x": 0,
+    "y": 120,
+    "z": 7000,
+    "height": 600,
+    "width": 1146,
+    "tabOrder": 7000
+  },
+  "visualGroup": {
+    "displayName": "Shipment/Sellout matrix",
+    "groupMode": "ScaleMode"
+  },
+  "isHidden": true
+}

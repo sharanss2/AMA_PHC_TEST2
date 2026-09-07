@@ -1,0 +1,26 @@
+table 'Measure Selector'
+	lineageTag: b181c655-078d-4552-9416-e8db7f6b5f8f
+
+	column Measure
+		lineageTag: 07e317b2-78f8-4741-ae02-366d9589bd6b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Measure]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Measure Selector' = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Measure", STRING,
+				    {
+				        {"Shipments"},
+				        {"Sell-Out"},
+				        {"POS Offtake"}
+				    }
+				)
+
+	annotation PBI_Id = b9f5b2786ebb48aaa1d204108f83f7de
+

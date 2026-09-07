@@ -1,0 +1,21 @@
+Back Shop Sales = 
+VAR val = SUM(iqvia_backshop_05[Sales])
+VAR vol = SUM(iqvia_backshop_05[Units])
+
+VAR res = SWITCH(SELECTEDVALUE('Switcher Table'[Value/Volume]), "Value", val, "Volume", vol)
+RETURN
+res
+
+Front Shop Sales = 
+VAR val = SUM(iqvia_frontshop_01[Sales])
+VAR vol = SUM(iqvia_frontshop_01[Units])
+
+VAR res = SWITCH(SELECTEDVALUE('Switcher Table'[Value/Volume]), "Value", val, "Volume", vol)
+RETURN
+
+Open Order (MSU) ---> 20_30_MSU_Open Orders = 
+[20_MSU_Open Order] + [30_MSU_Open Order]
+
+Open Order (GIV) ---> 20_30_GIV_Open Orders = 
+[20_GIV_Open Order] + [30_GIV_Open Order]
+Shipmenet + OO MSU = [Shipment Order MSU] + [Open Order MSU]

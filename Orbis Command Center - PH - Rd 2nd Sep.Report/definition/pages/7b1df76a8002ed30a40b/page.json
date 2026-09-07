@@ -1,0 +1,15 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "7b1df76a8002ed30a40b",
+  "displayName": "Duplicate of Brand Analysis",
+  "displayOption": "ActualSize",
+  "height": 965,
+  "width": 1350,
+  "visualInteractions": [
+    {
+      "source": "fcb9ba1a64a24e005d7a",
+      "target": "5b40ced79e5622a4ab61",
+      "type": "NoFilter"
+    }
+  ]
+}
