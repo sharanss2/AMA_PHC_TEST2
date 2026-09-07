@@ -1,0 +1,145 @@
+table orbis_dim_ph_01
+	lineageTag: fa902bd3-7cee-4bce-9b25-7a9816488fc9
+
+	column DataType
+		dataType: string
+		lineageTag: 5fa2c58e-6f2f-456b-a294-f1d8e6346f36
+		summarizeBy: none
+		sourceColumn: DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer
+		dataType: string
+		lineageTag: 9202b2d1-bcd4-4959-aebd-9084e1f18632
+		summarizeBy: none
+		sourceColumn: customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: 5efabaec-d3e5-4ace-97cb-cd15d7299022
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: af96f397-5852-4806-ab02-1eb590afc34c
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column Item_gtin
+		dataType: string
+		lineageTag: 47f60cfd-157c-4cdb-aa77-bb3bb6af7f0d
+		summarizeBy: none
+		sourceColumn: Item_gtin
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: c6186c2a-f6a4-43d3-b304-23f7a7718cd8
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: a6d0e90b-bdf7-465d-ac7b-f59502601d32
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column Channel
+		dataType: string
+		lineageTag: f58fdf30-f633-4eb8-937b-94e76d474a07
+		summarizeBy: none
+		sourceColumn: Channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 67541d31-5842-40c4-a21a-f8977447629d
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Key
+		dataType: string
+		lineageTag: a803146b-d759-4bec-95a5-a1d217e3ab2f
+		summarizeBy: none
+		sourceColumn: Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column BrandForm
+		dataType: string
+		lineageTag: c561b495-da12-414c-80f6-b1a928ecf847
+		summarizeBy: none
+		sourceColumn: BrandForm
+
+		annotation SummarizationSetBy = Automatic
+
+	column Attribute1
+		dataType: string
+		lineageTag: 747220b4-c198-4020-ac28-d32f7396fc8d
+		summarizeBy: none
+		sourceColumn: Attribute1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Attribute2
+		dataType: string
+		lineageTag: f0f06c2f-f58d-4b87-b4c4-478cd75d67e2
+		summarizeBy: none
+		sourceColumn: Attribute2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Key for target' =
+			
+			UPPER(orbis_dim_ph_01[Brand] & "|" &
+			orbis_dim_ph_01[Category] & "|" &
+			orbis_dim_ph_01[Product] & "|" &
+			orbis_dim_ph_01[Item_Gtin])
+		lineageTag: a5074f42-69ab-4c8f-b4cd-ce7a40adf3cd
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Hierarchy' =
+			
+			IF(
+			   orbis_dim_ph_01[customer] = "MST",
+			   "MST",
+			   "Pure Offtake"
+			)
+		lineageTag: 6d680740-62f9-40d1-baa1-9f5274be39e9
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition orbis_dim_ph_01 = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(Databricks.Catalogs("adb-6342212884588594.14.azuredatabricks.net", "/sql/1.0/warehouses/963202ff1d6a9955", [Catalog="dap_hc_01_dev", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", MetricViewBiCompatibilityMode=null]){[Name="dap_hc_01_dev",Kind="Database"]}[Data], "select * from dap_hc_01_dev.gold_orbis.orbis_dim_ph_01", null, [EnableFolding=true]),
+				    #"Trimmed Text" = Table.TransformColumns(Source,{{"DataType", Text.Trim, type text}, {"customer", Text.Trim, type text}, {"category", Text.Trim, type text}, {"Brand", Text.Trim, type text}, {"Product", Text.Trim, type text}, {"Segment", Text.Trim, type text}, {"Channel", Text.Trim, type text}, {"Type", Text.Trim, type text}}),
+				    #"Uppercased Text" = Table.TransformColumns(#"Trimmed Text",{{"DataType", Text.Upper, type text}, {"customer", Text.Upper, type text}, {"category", Text.Upper, type text}, {"Brand", Text.Upper, type text}, {"Product", Text.Upper, type text}, {"Segment", Text.Upper, type text}, {"Channel", Text.Upper, type text}, {"Type", Text.Upper, type text}}),
+				    #"Added Key" = Table.AddColumn(#"Uppercased Text", "Key", each Text.Combine(List.Select({[DataType], [Type], [Channel], [customer], [category], [Segment], [Brand], [Product]}, each _ <> null and _ <> ""), " - "), type text)
+				in
+				    #"Added Key"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

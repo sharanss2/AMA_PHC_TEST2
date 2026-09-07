@@ -1,0 +1,58 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/1.4.0/schema.json",
+  "displayName": "Show Filters Pane",
+  "name": "8356936d51a998105b20",
+  "options": {
+    "applyOnlyToTargetVisuals": true,
+    "targetVisualNames": [
+      "2077a322ccce0825e38d",
+      "f4ca4f91bd52cc898b43",
+      "ea887b1b6bd5862c6507",
+      "a7ade5e674759c868d3c",
+      "93d9e734ed61820b1a34",
+      "f2fc4f905476bcc033ba",
+      "bd8916c3e3867c8ae26a",
+      "fe5dffd60436d5898d97",
+      "1ba17f37d4a2802d2b00",
+      "4835fd7a00ed794524ad",
+      "b0cb9bf86100e6002ba5",
+      "6c58ba5cd76c07d52abe",
+      "92ab38c5c8230b525952",
+      "a2b85fbac4d418360e89",
+      "bf89de18a8e2c470ebd4",
+      "946e89bb12b011b60707"
+    ],
+    "suppressData": true
+  },
+  "explorationState": {
+    "version": "1.3",
+    "activeSection": "a7ae366d81c03775483a",
+    "sections": {
+      "a7ae366d81c03775483a": {
+        "visualContainers": {},
+        "visualContainerGroups": {
+          "2077a322ccce0825e38d": {
+            "isHidden": false
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

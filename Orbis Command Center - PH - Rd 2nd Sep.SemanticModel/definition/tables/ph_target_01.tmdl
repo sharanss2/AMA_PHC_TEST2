@@ -1,0 +1,115 @@
+table ph_target_01
+	lineageTag: 6307e8ee-ac82-400b-ad41-e423664e821b
+
+	column ReportingCountry
+		dataType: string
+		lineageTag: 509e1e04-a729-48e1-ac88-66b876c97105
+		summarizeBy: none
+		sourceColumn: ReportingCountry
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 00987a16-1b96-4257-969d-91a38c31c718
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Company
+		dataType: string
+		lineageTag: b062bf0d-0ce2-463d-9ee3-c0bc595c8a55
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: a9ffd121-20b6-40f2-849d-e6933b0b9339
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column Item_Gtin
+		dataType: string
+		lineageTag: 9603bf69-2ddf-4d8d-9619-404fc8213e8d
+		summarizeBy: none
+		sourceColumn: Item_Gtin
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: 11b7ee4b-9319-4720-914a-1efa005d6615
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column period_end_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 312a1511-6c6b-463e-8ae8-92cdc0a3901e
+		summarizeBy: none
+		sourceColumn: period_end_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Target_SU
+		dataType: double
+		lineageTag: c7c8d1bd-74a7-47d2-a523-f01bf6681761
+		summarizeBy: sum
+		sourceColumn: Target_SU
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ConversionFactor_GIV_MM_MSU
+		dataType: double
+		lineageTag: 736c0fc7-2d2f-404f-a87e-c3585acb4f2f
+		summarizeBy: sum
+		sourceColumn: ConversionFactor_GIV_MM_MSU
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Target_GIV
+		dataType: double
+		lineageTag: 80ac945c-6bb4-4d61-9fe2-62e2ff735740
+		summarizeBy: sum
+		sourceColumn: Target_GIV
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Key =
+			
+			UPPER(ph_target_01[Brand] & "|" &
+			ph_target_01[Category] & "|" &
+			ph_target_01[Product] & "|" &
+			ph_target_01[Item_Gtin])
+		lineageTag: 3d6b0532-40bf-4df7-a876-49db25e57bd6
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ph_target_01 = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(Databricks.Catalogs("adb-6342212884588594.14.azuredatabricks.net", "/sql/1.0/warehouses/963202ff1d6a9955", [Catalog="dap_hc_01_dev", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]){[Name="dap_hc_01_dev",Kind="Database"]}[Data], "select * from dap_hc_01_dev.gold_orbis.target_ph_01", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

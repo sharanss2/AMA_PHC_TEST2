@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
+  "displayName": "Customer, Brand",
+  "name": "2e75504bb67c06c46c95",
+  "options": {
+    "applyOnlyToTargetVisuals": true,
+    "targetVisualNames": [
+      "eeed522293660b82d2cc",
+      "ecefe8fc171485209eca"
+    ]
+  },
+  "explorationState": {
+    "version": "1.3",
+    "activeSection": "f7d1d7ff6860673b5ee3",
+    "sections": {
+      "f7d1d7ff6860673b5ee3": {
+        "visualContainers": {}
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Orbis Command Center - PH - Rd 2nd Sep"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "82d7d759-697f-441e-80f1-b350bca70242"
+  }
+}
