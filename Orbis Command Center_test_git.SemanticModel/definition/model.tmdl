@@ -1,0 +1,64 @@
+model Model
+	culture: en-IN
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-SG
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["pos_data_03","shipmenets_data_07","iqvia_data_01","Time Period","rtdx_data_02","category_dim_01","brand_dim_01","product_dim_01","segment_dim_01","customer_dim_01","channel_dim_01","Switcher Table","iqvia_frontshop_01","iqvia_backshop_05","Current date/time","Target GIV","Target Vol","orbis_dimension_01","FB filter","Target GIV Key","Target Vol Key","target_key_master","iqvia_all_04","pos_daily","Target Vol FY2526","Target GIV FY2526"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","MCP-PBIModeling","DevMode"]
+
+ref table DateTable
+ref table 'Measures table'
+ref table DateTableTemplate_a61cc77b-2c8f-4633-b0f9-1f1925bc0aaf
+ref table pos_data_03
+ref table shipmenets_data_07
+ref table LocalDateTable_20a9b933-65c4-4cfe-88c1-98be2e2c82cf
+ref table 'Time Period'
+ref table rtdx_data_02
+ref table Parameter
+ref table 'Switcher Table'
+ref table 'Slicer Month Year'
+ref table 'Current date/time'
+ref table LocalDateTable_ef7757e0-7927-416b-9927-4c71c1ac0696
+ref table Brand_Grouped
+ref table 'Target GIV'
+ref table 'Target Vol'
+ref table LocalDateTable_aa7408cb-0c15-4310-9f42-cd0d7ba0694f
+ref table orbis_dimension_01
+ref table 'FB Parameters'
+ref table LocalDateTable_977c11e3-09a2-4133-b5e8-560897410eb5
+ref table 'Target GIV Key'
+ref table 'Target Vol Key'
+ref table target_key_master
+ref table iqvia_all_04
+ref table Top10Brands
+ref table 'DataType Slicer'
+ref table 'IYA Toggle'
+ref table 'Shipment Pie Toggle'
+ref table 'Shipment Pie Toggle Brand'
+ref table 'Shipment Pie Toggle Channel'
+ref table 'POS Pie Toggle'
+ref table 'Shipments Toggle'
+ref table 'Shipments Toggle Value'
+ref table 'Shipments Toggle Volume'
+ref table 'POS Pie Toggle Brand'
+ref table 'POS Pie Toggle Customer'
+ref table pos_daily
+
+ref role ALL
+ref role Clicks
+ref role Dischem
+ref role Game
+ref role Makro
+ref role PicknPay
+ref role Shoprite
+ref role NoPOSAccess
+
+ref cultureInfo en-IN
+

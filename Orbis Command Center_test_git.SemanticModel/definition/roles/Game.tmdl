@@ -1,0 +1,7 @@
+role Game
+	modelPermission: read
+
+	tablePermission pos_data_03
+
+	annotation PBI_Id = 6d39c5d3966340c69ae230dd9a532edc
+

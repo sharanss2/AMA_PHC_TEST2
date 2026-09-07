@@ -1,0 +1,25 @@
+table 'Shipment Pie Toggle Brand'
+	lineageTag: 00bc0763-862f-4ac3-acc0-a742727bbe4e
+
+	column Metric
+		lineageTag: d19e49d6-f060-4ccf-8fa8-814b33d2b9ae
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Metric]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Shipment Pie Toggle Brand' = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "Metric", STRING,
+				    {
+				        { "Value" },
+				        { "Volume (MSU)" }
+				    }
+				)
+
+	annotation PBI_Id = a1f9a09654a94f89a4fd726dc73cfc4a
+

@@ -1,0 +1,86 @@
+table 'Shipments Toggle'
+	lineageTag: 49659773-06fe-4f80-a0e3-eabb9fbdbf6c
+
+	measure 'Shipments Value Compare Toggle' =
+			
+			IF (
+			    SELECTEDVALUE ( 'Shipments Toggle Value'[Show Shipments], "Off" ) = "On",
+			    [Shipments Visual Value MM Compare],
+			    BLANK()
+			)
+			// IF (
+			//     SELECTEDVALUE ( 'Shipments Toggle Value'[Show Shipments], "Off" ) = "On",
+			//     [Shipments Visual Value MM Monthly],
+			//     BLANK()
+			// )
+			// IF (
+			//     SELECTEDVALUE ( 'Shipments Toggle Value'[Show Shipments], "Off" ) = "On",
+			//     [Shipments Visual Value MM Page],
+			//     BLANK()
+			// )
+			// VAR ShowShipments =
+			//     SELECTEDVALUE ( 'Shipments Toggle Value'[Show Shipments], "Off" ) = "On"
+			
+			// VAR SelectedCustomers =
+			//     VALUES ( orbis_dimension_01[customer] )
+			
+			// RETURN
+			// IF (
+			//     ShowShipments,
+			//     CALCULATE (
+			//         [Shipments Visual Value MM Page],
+			//         TREATAS ( SelectedCustomers, shipmenets_data_07[Customer] )
+			//     ),
+			//     BLANK()
+			// )
+		lineageTag: dc7df494-fcb1-460c-a366-e1b0f2f3dd86
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Shipments MSU Compare Toggle' =
+			
+			IF (
+			    SELECTEDVALUE ( 'Shipments Toggle Volume'[Show Shipments], "Off" ) = "On",
+			    [Shipments Visual MSU Compare2],
+			    BLANK()
+			)
+			// VAR ShowShipments =
+			//     SELECTEDVALUE ( 'Shipments Toggle Volume'[Show Shipments], "Off" ) = "On"
+			
+			// VAR SelectedCustomers =
+			//     VALUES ( orbis_dimension_01[customer] )
+			
+			// RETURN
+			// IF (
+			//     ShowShipments,
+			//     CALCULATE (
+			//         [Shipments MSU Page],
+			//         TREATAS ( SelectedCustomers, shipmenets_data_07[Customer] )
+			//     ),
+			//     BLANK()
+			// )
+		formatString: 0
+		lineageTag: 58d959be-5816-4e07-aff0-ca3835b65ad1
+
+	column 'Show Shipments'
+		lineageTag: c4e8cf28-b227-45cb-8db0-014d91d9f3ad
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Show Shipments]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Shipments Toggle' = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "Show Shipments", STRING,
+				    {
+				        { "Off" },
+				        { "On" }
+				    }
+				)
+
+	annotation PBI_Id = 17800e8ca88842b6b8715fcd04c57a45
+

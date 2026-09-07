@@ -1,0 +1,57 @@
+table 'FB Parameters'
+	lineageTag: 1c47273d-df2f-4ff2-851e-dd98c18dcaa2
+
+	column 'FB Parameters'
+		lineageTag: 011f694e-3fd4-4a3c-a4c1-239694a674bc
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'FB Parameters Order'
+
+		relatedColumnDetails
+			groupByColumn: 'FB Parameters Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'FB Parameters Fields'
+		isHidden
+		lineageTag: cccb2d16-8577-47c4-95d8-1a6360fc41c8
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'FB Parameters Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'FB Parameters Order'
+		isHidden
+		formatString: 0
+		lineageTag: 3c2591ec-085a-465d-86ff-ea480f1d7b1b
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value/Volume
+		lineageTag: 9e4dee00-abe8-423c-b387-3094c9edd3ee
+		summarizeBy: none
+		sourceColumn: [Value4]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'FB Parameters' = calculated
+		mode: import
+		source =
+				{
+				    ("Sales (MM)", NAMEOF('Measures table'[Front Shop Sales Val PXM]), 0, "Value"),
+				    ("Sales IYA", NAMEOF('Measures table'[Front Shop Val IYA PXM]), 1, "Value"),
+				    ("Sales (MSU)", NAMEOF('Measures table'[Front Shop Sales Vol PXM]), 2, "Volume"),
+				    ("Sales IYA", NAMEOF('Measures table'[Front Shop Vol IYA PXM]), 3, "Volume")
+				}
+
+	annotation PBI_Id = 7bc7cb49bf514f41897abc02593e728a
+

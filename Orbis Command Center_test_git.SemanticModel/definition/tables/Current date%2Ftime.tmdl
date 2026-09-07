@@ -1,0 +1,32 @@
+table 'Current date/time'
+	lineageTag: 83d3f158-8543-4455-b9dc-a9b7c5c1f06b
+
+	column 'Current Date/Time'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 74b11c4b-2c0d-4b7f-a41f-2dbb66b859b0
+		summarizeBy: none
+		sourceColumn: Current Date/Time
+
+		variation Variation
+			isDefault
+			relationship: bf4215b6-c6ea-4fb7-94a2-c9c6ced66b75
+			defaultHierarchy: LocalDateTable_ef7757e0-7927-416b-9927-4c71c1ac0696.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Current date/time' = m
+		mode: import
+		source =
+				let
+				    Source = DateTimeZone.SwitchZone ( DateTimeZone.UtcNow(), +2, 00),
+				    #"Converted to Table" = #table(1, {{Source}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "Current Date/Time"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Current Date/Time", type datetimezone}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

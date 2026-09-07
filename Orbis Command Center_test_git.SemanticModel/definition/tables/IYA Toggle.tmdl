@@ -1,0 +1,25 @@
+table 'IYA Toggle'
+	lineageTag: ba3409cc-312d-4d30-a641-3252b8ee38e6
+
+	column 'Show IYA'
+		lineageTag: 7bdfa1fe-cede-4527-a52a-f3fa456b16b0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Show IYA]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'IYA Toggle' = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "Show IYA", STRING,
+				    {
+				        { "IYA Off" },
+				        { "IYA On" }
+				    }
+				)
+
+	annotation PBI_Id = 6161ff19df7a4e1595c4148b247fc7c3
+

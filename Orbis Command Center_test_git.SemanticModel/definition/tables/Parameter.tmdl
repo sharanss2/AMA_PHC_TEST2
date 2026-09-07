@@ -1,0 +1,110 @@
+table Parameter
+	lineageTag: 76fded6d-5dbe-46fd-a215-24e39bf4c339
+
+	column Parameter
+		lineageTag: f6350525-fe22-425d-b66b-3b05c6e45b5c
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: 110a7be9-327d-4402-9dd7-17a96ea4dcb0
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: a62a672d-e291-494f-857c-a538818e1779
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	column MSU/GIV
+		lineageTag: 38298dd5-45a5-45b8-abea-e271ca66e0b2
+		summarizeBy: none
+		sourceColumn: [Value4]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter = calculated
+		mode: import
+		source =
+				{
+					("Shipped (GIV)", NAMEOF('Measures table'[40_50_GIV_Shipped (in M, MM)]), 0, "GIV"),
+				    ("Shipped (MSU)", NAMEOF('Measures table'[40_50_MSU_Shipped]), 1, "MSU"),
+				    ("20_GIV_Open Orders", NAMEOF('Measures table'[20_GIV_Open Order]), 2, "GIV"),
+				    ("20_MSU_Open Orders", NAMEOF('Measures table'[20_MSU_Open Order]), 3, "MSU"),
+				    ("30_GIV_Open Orders", NAMEOF('Measures table'[30_GIV_Open Order]), 4, "GIV"),
+				    ("30_MSU_Open Orders", NAMEOF('Measures table'[30_MSU_Open Order]), 5, "MSU"),
+					("Open Orders (GIV)", NAMEOF('Measures table'[20_30_GIV_Open Orders (in M, MM)]), 6, "GIV"),
+				    ("Open Orders (MSU)", NAMEOF('Measures table'[20_30_MSU_Open Orders]), 7, "MSU"),
+				    ("40_GIV_shipped_invoiced", NAMEOF('Measures table'[40_GIV_shipped_invoiced]), 8, "GIV"),
+				    ("40_MSU_shipped_invoiced", NAMEOF('Measures table'[40_MSU_shipped_invoiced]), 9, "MSU"),
+				    ("50_GIV_shipped_CM_", NAMEOF('Measures table'[50_GIV_shipped_CM_]), 10, "GIV"),
+				    ("50_MSU_shipped_CM", NAMEOF('Measures table'[50_MSU_shipped_CM]), 11, "MSU"),
+				    ("50_GIV_Shipped_CY", NAMEOF('Measures table'[50_GIV_Shipped_CY]), 12, "GIV"),
+				    ("50_MSU_Shipped_CY", NAMEOF('Measures table'[50_MSU_Shipped_CY]), 13, "MSU"),
+				    ("50_GIV_Shipped_LY", NAMEOF('Measures table'[50_GIV_Shipped_LY]), 14, "GIV"),
+				    ("50_MSU_Shipped_LY", NAMEOF('Measures table'[50_MSU_Shipped_LY]), 15, "MSU"),
+				    ("Blocked Orders (GIV) 1", NAMEOF('Measures table'[Blocked Order GIV]), 16, "GIV"),
+				    ("Blocked Orders", NAMEOF('Measures table'[Blocked Orders MSU]), 17, "MSU"),
+				    ("NIT (GIV) 1", NAMEOF('Measures table'[NIT GIV]), 18, "GIV"),
+				    ("NIT", NAMEOF('Measures table'[NIT MSU]), 19, "MSU"),
+				    ("Open Orders GIV", NAMEOF('Measures table'[Open Order GIV]), 20, "GIV"),
+				    ("Open Orders MSU", NAMEOF('Measures table'[Open Order MSU]), 21, "MSU"),
+				    ("Sales (GIV) 1", NAMEOF('Measures table'[Sales (GIV)]), 22, "GIV"),
+				    ("Sales", NAMEOF('Measures table'[Sales (MSU)]), 23, "MSU"),
+				    ("Shipments + Open Orders (GIV) 1", NAMEOF('Measures table'[Shipmenet + OO GIV]), 24, "GIV"),
+				    ("Shipments + Open Orders", NAMEOF('Measures table'[Shipmenet + OO MSU]), 25, "MSU" ),
+				    ("Shipment Order GIV", NAMEOF('Measures table'[Shipment Order GIV]), 26, "GIV"),
+				    ("Shipment Order MSU", NAMEOF('Measures table'[Shipment Order MSU]), 27, "MSU"),
+				    ("Total (GIV) 1", NAMEOF('Measures table'[Total GIV]), 28, "GIV"),
+				    ("Total", NAMEOF('Measures table'[Total MSU]), 29, "MSU"),
+				    ("Inventory (MSU) 1", NAMEOF('Measures table'[Closing Inventory Volume]), 30, "GIV"),
+				    ("Inventory (MSU) 2", NAMEOF('Measures table'[Closing Inventory Volume]), 31, "MSU"),
+				    ("Projection (Weeks)", NAMEOF('Measures table'[Projection]), 32, "GIV"),
+				    ("Projection (Weeks)", NAMEOF('Measures table'[Projection]), 33, "MSU"),
+					("Sales", NAMEOF('Measures table'[Sales GIV (in MM)]), 34, "GIV"),
+					("Shipments + Open Orders", NAMEOF('Measures table'[Shipmenet + OO GIV (in M, MM)]), 35, "GIV"),
+					("Blocked Orders", NAMEOF('Measures table'[Blocked Orders GIV (in M, MM)]), 36, "GIV"),
+					("NIT", NAMEOF('Measures table'[NIT GIV (in M, MM)]), 37, "GIV"),
+					("Total", NAMEOF('Measures table'[Total GIV (in M, MM)]), 38, "GIV"),
+				    ("Shipped (GIV) 1", NAMEOF('Measures table'[40_50_GIV_Shipped]), 39, "GIV"),
+					("Open Orders (GIV) 1", NAMEOF('Measures table'[20_30_GIV_Open Orders]), 40, "GIV"),
+				    ("Closing Inventory (MSU)", NAMEOF('Measures table'[Closing Inventory Volume Text]), 41, "MSU"),
+				    ("Closing Inventory", NAMEOF('Measures table'[Closing Inventory Volume Text]), 42, "GIV"),
+				    ("Target", NAMEOF('Measures table'[Target GIV (in M, MM)]), 43, "GIV"),
+				    ("Target", NAMEOF('Measures table'[Target (MSU)]), 44, "MSU"),
+				    ("Index Vs Target", NAMEOF('Measures table'[GIV Target Index]), 45, "GIV"),
+				    ("Index Vs Target", NAMEOF('Measures table'[MSU Target Index]), 46, "MSU"),
+				    ("Opening Inventory (MSU)", NAMEOF('Measures table'[Opening Inventory Volume Text]), 47, "MSU"),
+				    ("Opening Inventory", NAMEOF('Measures table'[Opening Inventory Volume Text]), 48, "GIV"),
+				    ("Blocked Orders (MSU)", NAMEOF('Measures table'[Blocked Order MSU]), 49, "MSU"),
+				    ("Blocked Orders (GIV)", NAMEOF('Measures table'[Blocked Order GIV (in M, MM)]), 50, "GIV"),
+				    ("NIT in (MSU)", NAMEOF('Measures table'[NIT in MSU]), 51, "MSU"),
+				    ("NIT in (GIV)", NAMEOF('Measures table'[NIT in GIV (in M, MM)]), 52, "GIV"),
+				    ("Closing Store Inventory (MSU)", NAMEOF('Measures table'[Closing Store Inventory Volume Text]), 53, "MSU"),
+				    ("Closing Store Inventory", NAMEOF('Measures table'[Closing Store Inventory Volume Text]), 54, "GIV"),
+				    ("Opening Store Inventory (MSU)", NAMEOF('Measures table'[Opening Store Inventory Volume Text]), 55, "MSU"),
+				    ("Opening Store Inventory", NAMEOF('Measures table'[Opening Store Inventory Volume Text]), 55, "GIV")
+				}
+
+	annotation PBI_Id = 2e33e772a0e64881a5274d8b72c29c44
+

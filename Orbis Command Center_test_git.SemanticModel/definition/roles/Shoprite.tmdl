@@ -1,0 +1,7 @@
+role Shoprite
+	modelPermission: read
+
+	tablePermission pos_data_03
+
+	annotation PBI_Id = 10b4eb1e18044c6ebfc76c046823f86e
+

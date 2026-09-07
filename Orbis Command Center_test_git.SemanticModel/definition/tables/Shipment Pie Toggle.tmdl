@@ -1,0 +1,37 @@
+table 'Shipment Pie Toggle'
+	lineageTag: 5f94c140-38c7-444a-8251-45b28840a3dd
+
+	measure 'Shipments Pie Display' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( 'Shipment Pie Toggle'[Metric], "Value" ),
+			    "Value", [Shipments Visual Value MM Page],
+			    "Volume (MSU)", [Shipments MSU PXM Page],
+			    [Shipments Visual Value MM Page]
+			)
+		lineageTag: 3e3205f4-a29d-44cf-81a1-1b67c8e9ec43
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Metric
+		lineageTag: d8af3392-f414-493b-80c0-850e8e80ae67
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Metric]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Shipment Pie Toggle' = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "Metric", STRING,
+				    {
+				        { "Value" },
+				        { "Volume (MSU)" }
+				    }
+				)
+
+	annotation PBI_Id = d637dc6b3b504a92a23694dc03ce5604
+

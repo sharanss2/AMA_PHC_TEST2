@@ -1,0 +1,49 @@
+table 'Shipment Pie Toggle Channel'
+	lineageTag: d6a4c684-926d-4280-b096-f149967326fa
+
+	measure 'Shipments Pie Display Brand' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( 'Shipment Pie Toggle Brand'[Metric], "Value" ),
+			    "Value", [Shipments Value MM Page],
+			    "Volume (MSU)", [Shipments MSU PXM Page],
+			    [Shipments Value MM Page]
+			)
+		lineageTag: e3aa3fe5-8e49-44ef-beaa-3942d41bfbf5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Shipments Pie Display Channel' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( 'Shipment Pie Toggle Channel'[Metric], "Value" ),
+			    "Value", [Shipments Value MM Page],
+			    "Volume (MSU)", [Shipments MSU PXM Page],
+			    [Shipments Value MM Page]
+			)
+		lineageTag: f8af199f-ab6a-468e-a227-0f633fceb39b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Metric
+		lineageTag: 7f4fd660-2633-43c2-b62a-ece4abe38590
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Metric]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Shipment Pie Toggle Channel' = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "Metric", STRING,
+				    {
+				        { "Value" },
+				        { "Volume (MSU)" }
+				    }
+				)
+
+	annotation PBI_Id = dd69bb046ef64b1cb68ab4e7e63e5004
+

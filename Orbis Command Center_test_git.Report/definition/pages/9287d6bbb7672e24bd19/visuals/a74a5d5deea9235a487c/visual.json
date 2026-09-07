@@ -1,0 +1,31 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "a74a5d5deea9235a487c",
+  "position": {
+    "x": 1003.5297688738563,
+    "y": 127.40539557033496,
+    "z": 19000,
+    "height": 126.107280690343,
+    "width": 229.1244959021725,
+    "tabOrder": 13000
+  },
+  "visualGroup": {
+    "displayName": "Shipment Button",
+    "groupMode": "ScaleMode",
+    "objects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

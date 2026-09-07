@@ -1,0 +1,477 @@
+table pos_daily
+	lineageTag: 55192c03-d026-4117-8fdf-deb2d94973eb
+
+	measure 'POS Sales Daily' =
+			
+			VAR val = SUM ( pos_daily[Sales] )
+			VAR vol = SUM ( pos_daily[Sales_MSU] )
+			VAR units = SUM ( pos_daily[Units_Sold] )
+			RETURN
+			    SWITCH (
+			        SELECTEDVALUE ( 'Switcher Table'[Value/Volume] ),
+			        "Value", val,
+			        "Volume (MSU)", vol,
+			        "Volume (Units)", units
+			    )
+		lineageTag: c978f255-e260-4e65-b24e-dca7ba125585
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Latest POS Daily Date Current Month' =
+			
+			CALCULATE (
+			    MAX ( pos_daily[period_end_date] ),
+			    FILTER (
+			        ALL ( pos_daily[period_end_date] ),
+			        YEAR ( pos_daily[period_end_date] ) = YEAR ( TODAY() )
+			            && MONTH ( pos_daily[period_end_date] ) = MONTH ( TODAY() )
+			    )
+			)
+		formatString: General Date
+		lineageTag: b23a2757-b41d-4460-9383-49f9947f355a
+
+	measure 'POS Sales Current Month Daily' =
+			
+			VAR LatestDate =
+			    [Latest POS Daily Date Current Month]
+			RETURN
+			    CALCULATE (
+			        [POS Sales Daily],
+			        DATESBETWEEN (
+			            DateTable[Date],
+			            DATE ( YEAR ( LatestDate ), MONTH ( LatestDate ), 1 ),
+			            LatestDate
+			        )
+			    )
+		lineageTag: 5ddccfbe-61ab-4a8b-bb6a-eb83f8702972
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'POS Sales LY Current Month Daily' =
+			
+			VAR LatestDate =
+			    [Latest POS Daily Date Current Month]
+			RETURN
+			    CALCULATE (
+			        [POS Sales Daily],
+			        DATESBETWEEN (
+			            DateTable[Date],
+			            DATE ( YEAR ( LatestDate ) - 1, MONTH ( LatestDate ), 1 ),
+			            DATE ( YEAR ( LatestDate ) - 1, MONTH ( LatestDate ), DAY ( LatestDate ) )
+			        )
+			    )
+		lineageTag: 767f5d22-a90c-4b10-8594-4be4841b1938
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'POS IYA PXM Fixed' =
+			
+			VAR _SelectedPeriod =
+			    SELECTEDVALUE ( 'Time Period'[Period] )
+			
+			VAR _IsCurrentMonthSelected =
+			    SELECTEDVALUE ( 'Slicer Month Year'[Current Month Year] ) = "Current Month"
+			
+			VAR _CurrentMonthIYA =
+			    DIVIDE (
+			        [POS Sales Current Month Daily],
+			        [POS Sales LY Current Month Daily],
+			        BLANK()
+			    ) * 100
+			
+			VAR _StandardIYA =
+			    DIVIDE ( [POS Sales PXM], [POS Sales LY PXM], BLANK() ) * 100
+			
+			RETURN
+			IF (
+			    [IYA Visibility Filter POS & Shipments] = 0,
+			    BLANK(),
+			    IF (
+			        _SelectedPeriod = "Current Month" && _IsCurrentMonthSelected,
+			        _CurrentMonthIYA,
+			        _StandardIYA
+			    )
+			)
+		lineageTag: be242b9c-4354-448e-ae94-bc185ff321d5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Latest POS Daily Date Current Month - Customer View' =
+			
+			VAR SelectedCustomers =
+			    VALUES ( orbis_dimension_01[customer] )
+			RETURN
+			CALCULATE (
+			    MAX ( pos_daily[period_end_date] ),
+			    REMOVEFILTERS ( DateTable ),
+			    FILTER (
+			        ALL ( pos_daily[period_end_date] ),
+			        YEAR ( pos_daily[period_end_date] ) = YEAR ( TODAY() )
+			            && MONTH ( pos_daily[period_end_date] ) = MONTH ( TODAY() )
+			    ),
+			    TREATAS ( SelectedCustomers, pos_daily[Customer] )
+			)
+		formatString: General Date
+		lineageTag: ed3801cb-6d40-467d-b5e1-f9e219a5aa54
+
+	measure 'Latest POS Daily Date Current Month - Brand View' =
+			
+			VAR SelectedCustomers =
+			    VALUES ( orbis_dimension_01[customer] )
+			
+			VAR SelectedBrands =
+			    VALUES ( orbis_dimension_01[Brand] )
+			
+			RETURN
+			CALCULATE (
+			    MAX ( pos_daily[period_end_date] ),
+			    REMOVEFILTERS ( DateTable ),
+			    FILTER (
+			        ALL ( pos_daily[period_end_date] ),
+			        YEAR ( pos_daily[period_end_date] ) = YEAR ( TODAY() )
+			            && MONTH ( pos_daily[period_end_date] ) = MONTH ( TODAY() )
+			    ),
+			    TREATAS ( SelectedCustomers, pos_daily[Customer] ),
+			    TREATAS ( SelectedBrands, pos_daily[Brand] )
+			)
+		formatString: General Date
+		lineageTag: 26f7b001-1023-4f85-88d1-6afcef66613b
+
+	measure 'POS Sales Current Month Daily - Customer View' = ```
+			
+			VAR LatestDate =
+			    [Latest POS Daily Date Current Month - Customer View]
+			VAR SelectedCustomers =
+			    SUMMARIZECOLUMNS(  orbis_dimension_01[customer],
+			     orbis_dimension_01[Brand],
+			     orbis_dimension_01[Segment],
+			     orbis_dimension_01[Product])
+			
+			    
+			RETURN
+			IF (
+			    ISBLANK ( LatestDate ),
+			    BLANK(),
+			    CALCULATE (
+			        [POS Sales Daily],
+			        REMOVEFILTERS ( DateTable ),
+			        FILTER (
+			            ALL ( pos_daily[period_end_date] ),
+			            pos_daily[period_end_date] >= DATE ( YEAR ( LatestDate ), MONTH ( LatestDate ), 1 )
+			                && pos_daily[period_end_date] <= LatestDate
+			        ),
+			        TREATAS ( SelectedCustomers, pos_daily[Customer],pos_daily[Brand],pos_daily[Segment],pos_daily[Product] )
+			    )
+			)
+			```
+		lineageTag: 7a7f37cf-e324-44bf-97ea-8f4848ea1281
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'POS Sales LY Current Month Daily - Customer View' =
+			
+			VAR LatestDate =
+			    [Latest POS Daily Date Current Month - Customer View]
+			VAR SelectedCustomers =
+			    SUMMARIZECOLUMNS(  orbis_dimension_01[customer],
+			     orbis_dimension_01[Brand],
+			     orbis_dimension_01[Segment],
+			     orbis_dimension_01[Product])
+			VAR StartDateLY =
+			    IF (
+			        ISBLANK ( LatestDate ),
+			        BLANK(),
+			        DATE ( YEAR ( LatestDate ) - 1, MONTH ( LatestDate ), 1 )
+			    )
+			VAR EndDateLY =
+			    IF (
+			        ISBLANK ( LatestDate ),
+			        BLANK(),
+			        DATE ( YEAR ( LatestDate ) - 1, MONTH ( LatestDate ), DAY ( LatestDate ) )
+			    )
+			RETURN
+			IF (
+			    ISBLANK ( LatestDate ),
+			    BLANK(),
+			    CALCULATE (
+			        [POS Sales Daily],
+			        REMOVEFILTERS ( DateTable ),
+			        FILTER (
+			            ALL ( pos_daily[period_end_date] ),
+			            pos_daily[period_end_date] >= StartDateLY
+			                && pos_daily[period_end_date] <= EndDateLY
+			        ),
+			        TREATAS ( SelectedCustomers, pos_daily[Customer],pos_daily[Brand],pos_daily[Segment],
+			         pos_daily[Product])
+			    )
+			)
+		lineageTag: d248940b-24a4-4df0-8f28-c6afd3d268a5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'POS Sales Current Month Daily - Brand View' = ```
+			
+			VAR LatestDate =
+			    [Latest POS Daily Date Current Month - Brand View]
+			
+			VAR StartDateCY =
+			    DATE ( YEAR ( LatestDate ), MONTH ( LatestDate ), 1 )
+			
+			VAR SelectedCustomers =
+			    VALUES ( orbis_dimension_01[customer] )
+			
+			VAR SelectedBrands =
+			      SUMMARIZECOLUMNS(  
+			     orbis_dimension_01[Brand],
+			     orbis_dimension_01[Segment],
+			     orbis_dimension_01[Product])
+			
+			RETURN
+			CALCULATE (
+			    [POS Sales Daily],
+			    REMOVEFILTERS ( DateTable ),
+			    FILTER (
+			        ALL ( pos_daily[period_end_date] ),
+			        pos_daily[period_end_date] >= StartDateCY
+			            && pos_daily[period_end_date] <= LatestDate
+			    ),
+			    TREATAS ( SelectedCustomers, pos_daily[Customer] ),
+			    TREATAS ( SelectedBrands, pos_daily[Brand],pos_daily[Segment],pos_daily[Product] )
+			)
+			```
+		lineageTag: 968b8446-c1f8-4677-abd8-c288fb4f9863
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'POS Sales LY Current Month Daily - Brand View' =
+			
+			VAR LatestDate =
+			    [Latest POS Daily Date Current Month - Brand View]
+			
+			VAR StartDateLY =
+			    DATE ( YEAR ( LatestDate ) - 1, MONTH ( LatestDate ), 1 )
+			
+			VAR EndDateLY =
+			    DATE ( YEAR ( LatestDate ) - 1, MONTH ( LatestDate ), DAY ( LatestDate ) )
+			
+			VAR SelectedCustomers =
+			    VALUES ( orbis_dimension_01[customer] )
+			
+			VAR SelectedBrands =
+			    VALUES ( orbis_dimension_01[Brand] )
+			
+			RETURN
+			CALCULATE (
+			    [POS Sales Daily],
+			    REMOVEFILTERS ( DateTable ),
+			    FILTER (
+			        ALL ( pos_daily[period_end_date] ),
+			        pos_daily[period_end_date] >= StartDateLY
+			            && pos_daily[period_end_date] <= EndDateLY
+			    ),
+			    TREATAS ( SelectedCustomers, pos_daily[Customer] ),
+			    TREATAS ( SelectedBrands, pos_daily[Brand] )
+			)
+		lineageTag: 4aee2861-92e7-4b07-ad9c-8ed4ffb5cba0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'POS IYA PXM Fixed - Customer View' =
+			
+			VAR _SelectedPeriod =
+			    SELECTEDVALUE ( 'Time Period'[Period] )
+			
+			VAR _IsCurrentMonthSelected =
+			    SELECTEDVALUE ( 'Slicer Month Year'[Current Month Year] ) = "Current Month"
+			
+			VAR _CurrentMonthIYA =
+			    DIVIDE (
+			        [POS Sales Current Month Daily - Customer View],
+			        [POS Sales LY Current Month Daily - Customer View],
+			        BLANK()
+			    ) * 100
+			
+			VAR _StandardIYA =
+			    DIVIDE ( [POS Sales PXM], [POS Sales LY PXM], BLANK() ) * 100
+			
+			RETURN
+			IF (
+			    [IYA Visibility Filter POS & Shipments] = 0,
+			    BLANK(),
+			    IF (
+			        _SelectedPeriod = "Current Month" && _IsCurrentMonthSelected,
+			        _CurrentMonthIYA,
+			        _StandardIYA
+			    )
+			)
+		formatString: 0.0
+		lineageTag: ed60a67d-6d67-4c6c-8d3e-2c77cfda9cca
+
+	measure 'POS IYA PXM Fixed - Brand View' =
+			
+			VAR _SelectedPeriod =
+			    SELECTEDVALUE ( 'Time Period'[Period] )
+			
+			VAR _IsCurrentMonthSelected =
+			    SELECTEDVALUE ( 'Slicer Month Year'[Current Month Year] ) = "Current Month"
+			
+			VAR _CurrentMonthIYA =
+			    DIVIDE (
+			        [POS Sales Current Month Daily - Brand View],
+			        [POS Sales LY Current Month Daily - Brand View],
+			        BLANK()
+			    ) * 100
+			
+			VAR _StandardIYA =
+			    DIVIDE ( [POS Sales PXM], [POS Sales LY PXM], BLANK() ) * 100
+			
+			RETURN
+			IF (
+			    [IYA Visibility Filter POS & Shipments] = 0,
+			    BLANK(),
+			    IF (
+			        _SelectedPeriod = "Current Month" && _IsCurrentMonthSelected,
+			        _CurrentMonthIYA,
+			        _StandardIYA
+			    )
+			)
+		formatString: 0.0
+		lineageTag: 9a3c8faa-b659-41a4-8f1e-4cdffd35e248
+
+	column period_end_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 759bf484-b80d-470c-8374-06d31df76091
+		summarizeBy: none
+		sourceColumn: period_end_date
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Customer
+		dataType: string
+		lineageTag: 1c8c7e79-b055-49b9-a1b6-7837ed220b38
+		summarizeBy: none
+		sourceColumn: Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column Company
+		dataType: string
+		lineageTag: 441f6c7a-174e-406a-b0fa-754525282412
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 12e35f1e-a602-4954-8066-672f140eae0b
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: e831178e-727c-4a86-ac4b-ffc7707b76ae
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column Item_gtin
+		dataType: string
+		lineageTag: 04c3e325-b3d4-492d-ba20-dbed708b50d3
+		summarizeBy: none
+		sourceColumn: Item_gtin
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: cc1267db-1944-4071-80bd-942737a71100
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: 9921e717-651c-4dac-b5aa-5b90b4d7c9c0
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataType
+		dataType: string
+		lineageTag: a31360ff-a6d1-4755-9923-360682d98be6
+		summarizeBy: none
+		sourceColumn: DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column za_stat_unit_factor
+		dataType: double
+		lineageTag: a4440f9c-3dd0-4a36-914b-5fa37b6fb078
+		summarizeBy: sum
+		sourceColumn: za_stat_unit_factor
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Channel
+		dataType: string
+		lineageTag: e76b72a1-2eef-4c77-8043-f183cac203ea
+		summarizeBy: none
+		sourceColumn: Channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column Units_Sold
+		dataType: double
+		lineageTag: bd81d788-f08d-4ffb-afb7-63bdcbe21875
+		summarizeBy: sum
+		sourceColumn: Units_Sold
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Sales
+		dataType: double
+		lineageTag: 8a1499c4-c168-4d83-b786-8d888bf7c48a
+		summarizeBy: sum
+		sourceColumn: Sales
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Sales_MSU
+		dataType: double
+		lineageTag: 38144870-1888-428a-ac53-742341319cec
+		summarizeBy: sum
+		sourceColumn: Sales_MSU
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition pos_daily = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(Databricks.Catalogs("adb-6342212884588594.14.azuredatabricks.net", "/sql/1.0/warehouses/963202ff1d6a9955", [Catalog="dap_hc_01_dev", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0"]){[Name="dap_hc_01_dev",Kind="Database"]}[Data], "select * from dap_hc_01_dev.gold_orbis.pos_daily_01", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+

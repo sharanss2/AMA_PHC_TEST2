@@ -1,0 +1,44 @@
+table Top10Brands
+	lineageTag: b0caf349-8834-4c61-a27b-70c3d7fb268d
+
+	column Category
+		lineageTag: 1485bdc7-ca38-4a66-8ab1-496531a720f8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Category]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		lineageTag: c742cfd1-842e-4994-bcee-bc8f0b769f27
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Brand]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Top10Brands = calculated
+		mode: import
+		source =
+				
+				SELECTCOLUMNS(
+				    TOPN(
+				        10,
+				        SUMMARIZE(
+				            orbis_dimension_01,
+				            orbis_dimension_01[Category],
+				            orbis_dimension_01[Brand],
+				            "BrandValue", CALCULATE(
+				                [Value P12M],
+				                ALL(orbis_dimension_01[P&G Flag])
+				            )
+				        ),
+				        [BrandValue],
+				        DESC
+				    ),
+				    "Category", orbis_dimension_01[Category],
+				    "Brand", orbis_dimension_01[Brand]
+				)
+
+	annotation PBI_Id = 968c985cd4144e72bc164d34eca9508f
+

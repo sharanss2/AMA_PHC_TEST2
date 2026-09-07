@@ -1,0 +1,25 @@
+table 'Shipments Toggle Value'
+	lineageTag: 53e715ca-bf6c-4f9d-9ce5-4eb674b0fce3
+
+	column 'Show Shipments'
+		lineageTag: 63077353-6a3e-42f3-a8de-ce0d2fed3a2d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Show Shipments]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Shipments Toggle Value' = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "Show Shipments", STRING,
+				    {
+				        { "Off" },
+				        { "On" }
+				    }
+				)
+
+	annotation PBI_Id = e71d8df478a24ef491dd863b73d97c10
+

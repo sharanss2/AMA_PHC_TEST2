@@ -1,0 +1,282 @@
+table shipmenets_data_07
+	lineageTag: 1edcd446-8b4c-4bae-9746-770fd0b22e93
+
+	column Order_No
+		dataType: string
+		lineageTag: fce6d760-c385-4c25-9511-c3439e3a77db
+		summarizeBy: none
+		sourceColumn: Order_No
+
+		annotation SummarizationSetBy = Automatic
+
+	column Invoice_No
+		dataType: string
+		lineageTag: d2c5cc2d-9a97-4c8a-947d-c783be4d27d9
+		summarizeBy: none
+		sourceColumn: Invoice_No
+
+		annotation SummarizationSetBy = Automatic
+
+	column Deliver_No
+		dataType: string
+		lineageTag: 6d8d6ada-8adc-476c-9591-f70a6b76d985
+		summarizeBy: none
+		sourceColumn: Deliver_No
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order_Date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2f4d5825-dbf5-4509-ace2-77f218dbc951
+		summarizeBy: none
+		sourceColumn: Order_Date
+
+		variation Variation
+			isDefault
+			relationship: 762c3a6e-3948-44e2-8869-ccf438262bf2
+			defaultHierarchy: LocalDateTable_20a9b933-65c4-4cfe-88c1-98be2e2c82cf.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Delivery_Creation_Date
+		dataType: string
+		lineageTag: 9e2282c7-b77b-445d-8226-4a198312f374
+		summarizeBy: none
+		sourceColumn: Delivery_Creation_Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column GI_Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d5dddb31-1a00-4c64-b978-f64093f9f893
+		summarizeBy: none
+		sourceColumn: GI_Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Requested_Delivery_Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 61504dce-ba4f-406e-a0ce-00d06541b802
+		summarizeBy: none
+		sourceColumn: Requested_Delivery_Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Pricing_Date
+		dataType: string
+		lineageTag: c1799413-237d-4f9e-8667-91cc111af6f3
+		summarizeBy: none
+		sourceColumn: Pricing_Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sold_To
+		dataType: int64
+		formatString: 0
+		lineageTag: a376d3ca-b8dd-4a61-888a-3f618d7f9ae3
+		summarizeBy: sum
+		sourceColumn: Sold_To
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sold_To_Name
+		dataType: string
+		lineageTag: 79c0b8e7-e7e6-4997-8f0b-0d36bee28604
+		summarizeBy: none
+		sourceColumn: Sold_To_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer
+		dataType: string
+		lineageTag: 360af344-32ad-403f-bba9-57098d591a57
+		summarizeBy: none
+		sourceColumn: Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column Channel
+		dataType: string
+		lineageTag: 7b6823e0-f284-4c2f-b208-526f06d4a83c
+		summarizeBy: none
+		sourceColumn: Channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column Company
+		dataType: string
+		lineageTag: e6be60b5-1ecb-4d51-946e-6f2a28715502
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 64a3e794-4062-48cc-971c-7a05865e28cd
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: 497ce660-7f01-4230-b30f-ecbb76af3c76
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column Item_gtin
+		dataType: string
+		lineageTag: ef404629-0fce-4979-852e-a29af8869de9
+		summarizeBy: none
+		sourceColumn: Item_gtin
+
+		annotation SummarizationSetBy = Automatic
+
+	column FPC
+		dataType: string
+		lineageTag: 2fc0c04e-2a55-4254-8685-df14ddb004d3
+		summarizeBy: none
+		sourceColumn: FPC
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: 96285a03-7916-474d-b140-ceb751b1344b
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column StatusCode
+		dataType: string
+		lineageTag: be60dbb5-eb6c-4aec-a4ff-eb54b9d9bc30
+		summarizeBy: none
+		sourceColumn: StatusCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order_Qty
+		dataType: double
+		lineageTag: 3324d89d-25e8-4511-8b4f-c9a3c6b5db4c
+		summarizeBy: sum
+		sourceColumn: Order_Qty
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Order_Qty_SU
+		dataType: double
+		lineageTag: 9cfaab93-111f-4ade-b159-5e20f101918d
+		summarizeBy: sum
+		sourceColumn: Order_Qty_SU
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Order_Qty_MSU
+		dataType: double
+		lineageTag: c40a791d-0e02-4ca1-876c-8d0ddbb0ccae
+		summarizeBy: sum
+		sourceColumn: Order_Qty_MSU
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NIV
+		dataType: double
+		lineageTag: 3da506a5-aab2-4ae5-b6ea-5ad59ab44541
+		summarizeBy: sum
+		sourceColumn: NIV
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GIV
+		dataType: double
+		lineageTag: ece0723f-bf94-4a04-bb38-c229c51118d7
+		summarizeBy: sum
+		sourceColumn: GIV
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Order_Status_Desc
+		dataType: string
+		lineageTag: e2ea46fb-59e6-4d54-8517-9622a6e80ffd
+		summarizeBy: none
+		sourceColumn: Order_Status_Desc
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataType
+		dataType: string
+		lineageTag: d66cbfe9-8347-4271-ae18-612fe301e99d
+		summarizeBy: none
+		sourceColumn: DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: 989a7137-900d-44e3-9204-91f404a44cf1
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column Key
+		dataType: string
+		lineageTag: 01d41dc0-1d94-4e1e-85dd-968799bcff4f
+		summarizeBy: none
+		sourceColumn: Key
+
+		annotation SummarizationSetBy = Automatic
+
+	partition shipmenets_data_07 = m
+		mode: import
+		source = ```
+				let
+				    Source = Databricks.Catalogs("adb-6342212884588594.14.azuredatabricks.net", "/sql/1.0/warehouses/963202ff1d6a9955", [Catalog=null, Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation=null]),
+				    dap_hc_01_dev_Database = Source{[Name="dap_hc_01_dev",Kind="Database"]}[Data],
+				    gold_orbis_Schema = dap_hc_01_dev_Database{[Name="gold_orbis",Kind="Schema"]}[Data],
+				    shipmenets_data_01_Table = gold_orbis_Schema{[Name="shipmenets_data_07",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(shipmenets_data_01_Table,{{"Requested_Delivery_Date", type datetime}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Changed Type",{{"GI_Date", type date}, {"Requested_Delivery_Date", type date}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type1", each [GI_Date] > #date(2023, 4, 30)),
+				    #"Uppercased Text" = Table.TransformColumns(#"Filtered Rows",{{"Channel", Text.Upper, type text}, {"Customer", Text.Upper, type text}, {"Category", Text.Upper, type text}, {"Brand", Text.Upper, type text}, {"Item_gtin", Text.Upper, type text}, {"Product", Text.Upper, type text}, {"Segment", Text.Upper, type text}, {"DataType", Text.Upper, type text}}),
+				    #"Trimmed Text" = Table.TransformColumns(#"Uppercased Text",{{"Channel", Text.Trim, type text}, {"Customer", Text.Trim, type text}, {"Category", Text.Trim, type text}, {"Brand", Text.Trim, type text}, {"Item_gtin", Text.Trim, type text}, {"Product", Text.Trim, type text}, {"Segment", Text.Trim, type text}, {"DataType", Text.Trim, type text}}),
+				    #"Added Custom" = Table.AddColumn(#"Trimmed Text", "Key", each 
+				    Text.Combine({
+				        Text.From([DataType]), 
+				        Text.From([Channel]), 
+				        Text.From([Customer]), 
+				        Text.From([Category]), 
+				        Text.From([Segment]), 
+				        Text.From([Brand]), 
+				        Text.From([Product])
+				    }, "")
+				)
+				in
+				    #"Added Custom"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

@@ -1,0 +1,287 @@
+table pos_data_03
+	lineageTag: 27751eb0-3d4d-4d00-afee-91736851f2b4
+
+	column period_end_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9b079783-ba10-4b1b-b429-667ca0398aa3
+		summarizeBy: none
+		sourceColumn: period_end_date
+
+		variation Variation
+			isDefault
+			relationship: c356b225-66f6-4b25-a9d8-d26683536b79
+			defaultHierarchy: LocalDateTable_aa7408cb-0c15-4310-9f42-cd0d7ba0694f.'Date Hierarchy'
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer
+		dataType: string
+		lineageTag: f0c6f379-ff78-4377-82e9-49a2b0374a28
+		summarizeBy: none
+		sourceColumn: Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column Company
+		dataType: string
+		lineageTag: 942bd80d-6ee3-4785-839b-ccd3513059c8
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: d8caa043-d88c-46f1-b847-008ba56ae255
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: e7f6f39c-7bec-4487-b095-74ff1298e9cc
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column Item_gtin
+		dataType: string
+		lineageTag: 3d0bf18e-ee30-4d6c-8fb7-75b366a901a0
+		summarizeBy: none
+		sourceColumn: Item_gtin
+
+		annotation SummarizationSetBy = Automatic
+
+	column FPC
+		dataType: string
+		lineageTag: a16393d7-036c-4433-81e6-ad66cfe95b90
+		summarizeBy: none
+		sourceColumn: FPC
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: cb3618ad-c48a-4615-9ae5-52b71067e904
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column Units_Sold
+		dataType: double
+		lineageTag: 2a1832a6-63d8-4a66-bc3c-8e1c594bfd00
+		summarizeBy: sum
+		sourceColumn: Units_Sold
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Sales
+		dataType: double
+		lineageTag: 92e72d8b-382f-4b35-88c3-66e5b410bcf9
+		summarizeBy: sum
+		sourceColumn: Sales
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DataType
+		dataType: string
+		lineageTag: 8ebcdd2d-2221-418e-a811-5bbf59c89002
+		summarizeBy: none
+		sourceColumn: DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sales_MSU
+		dataType: double
+		lineageTag: 3b38bdb8-18da-4665-b533-7c8d35a80c8f
+		summarizeBy: sum
+		sourceColumn: Sales_MSU
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Segment
+		dataType: string
+		lineageTag: ecd56ba5-7571-484c-adb3-447ee6f1a5b8
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column Channel_pbi = LOOKUPVALUE(shipmenets_data_07[Channel], shipmenets_data_07[Customer], pos_data_03[Customer])
+		lineageTag: 70c59bb9-2e34-49b4-b326-8790dfef694b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Year' = FORMAT([period_end_date], "MMM YYYY")
+		lineageTag: c1c4504c-8c23-4cec-a1ed-482dbbf2eb0c
+		summarizeBy: none
+		sortByColumn: YearMonthno
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonthno = INT(FORMAT([period_end_date], "YYYYMM"))
+		formatString: 0
+		lineageTag: d9cc8409-bca7-4336-b018-5419d651ba01
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column za_stat_unit_factor
+		dataType: double
+		lineageTag: 1781dbbd-5a78-47ab-b5b2-26fedcc674ac
+		summarizeBy: sum
+		sourceColumn: za_stat_unit_factor
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Latest_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d14f8750-2d39-42b0-b042-6fc5f942fd4d
+		summarizeBy: none
+		sourceColumn: Latest_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Channel
+		dataType: string
+		lineageTag: 3162633e-b045-486f-9f6d-47ed23a0e71a
+		summarizeBy: none
+		sourceColumn: Channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column Key
+		dataType: string
+		lineageTag: 975e40a3-3877-4c51-877a-e7c5e4a80481
+		summarizeBy: none
+		sourceColumn: Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_Start_inventory_units
+		dataType: double
+		lineageTag: 5fc9b44c-571a-4a40-bade-f080ab476a34
+		summarizeBy: sum
+		sourceColumn: month_Start_inventory_units
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column month_Start_inventory_units_MSU
+		dataType: double
+		lineageTag: b6fcf49f-8a55-4960-bc70-112ab2a99173
+		summarizeBy: sum
+		sourceColumn: month_Start_inventory_units_MSU
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column month_End_inventory_units
+		dataType: double
+		lineageTag: a97b9d15-0c26-4fad-a912-568142784f4a
+		summarizeBy: sum
+		sourceColumn: month_End_inventory_units
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column month_End_inventory_MSU
+		dataType: double
+		lineageTag: e746d6ce-74ab-4313-885c-55fe6fb1972f
+		summarizeBy: sum
+		sourceColumn: month_End_inventory_MSU
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column month_start_store_units
+		dataType: double
+		lineageTag: 9d21faf1-c9d3-49eb-941e-54f23661f6fb
+		summarizeBy: sum
+		sourceColumn: month_start_store_units
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column month_start_store_units_MSU
+		dataType: double
+		lineageTag: 8b9a65f2-9309-4540-8827-9857d2f5fde5
+		summarizeBy: sum
+		sourceColumn: month_start_store_units_MSU
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column month_end_store_units
+		dataType: double
+		lineageTag: 259fe5aa-2f11-44a7-bf7d-97f2c45e4796
+		summarizeBy: sum
+		sourceColumn: month_end_store_units
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column month_end_store_units_MSU
+		dataType: double
+		lineageTag: 144ee7e5-ab1f-4be9-a0ce-0430d67f21aa
+		summarizeBy: sum
+		sourceColumn: month_end_store_units_MSU
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition pos_data_03 = m
+		mode: import
+		source = ```
+				let
+				    Source = Databricks.Catalogs("adb-6342212884588594.14.azuredatabricks.net", "/sql/1.0/warehouses/963202ff1d6a9955", [Catalog=null, Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation=null]),
+				    dap_hc_01_dev_Database = Source{[Name="dap_hc_01_dev",Kind="Database"]}[Data],
+				    gold_orbis_Schema = dap_hc_01_dev_Database{[Name="gold_orbis",Kind="Schema"]}[Data],
+				    pos_data_01_Table = gold_orbis_Schema{[Name="pos_data_09",Kind="Table"]}[Data],
+				    #"Uppercased Text" = Table.TransformColumns(pos_data_01_Table,{{"Channel", Text.Upper, type text}, {"Customer", Text.Upper, type text}, {"Category", Text.Upper, type text}, {"Brand", Text.Upper, type text}, {"Item_gtin", Text.Upper, type text}, {"Product", Text.Upper, type text}, {"Segment", Text.Upper, type text}, {"DataType", Text.Upper, type text}}),
+				    #"Trimmed Text" = Table.TransformColumns(#"Uppercased Text",{{"Channel", Text.Trim, type text}, {"Customer", Text.Trim, type text}, {"Category", Text.Trim, type text}, {"Brand", Text.Trim, type text}, {"Item_gtin", Text.Trim, type text}, {"Product", Text.Trim, type text}, {"Segment", Text.Trim, type text}, {"DataType", Text.Trim, type text}}),
+				    #"Added Custom" = Table.AddColumn(#"Trimmed Text", "Key", each 
+				    Text.Combine({
+				        Text.From([DataType]), 
+				        Text.From([Channel]), 
+				        Text.From([Customer]), 
+				        Text.From([Category]), 
+				        Text.From([Segment]), 
+				        Text.From([Brand]), 
+				        Text.From([Product])
+				    }, "")
+				)
+				in
+				    #"Added Custom"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

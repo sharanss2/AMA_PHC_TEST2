@@ -1,0 +1,294 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY24SU10",
+      "reportVersionAtImport": {
+        "visual": "1.8.98",
+        "report": "2.0.98",
+        "page": "1.3.98"
+      },
+      "type": "SharedResources"
+    }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "d01452c5cf91ebc83b0a",
+        "ordinal": 0,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "orbis_dimension_01"
+              }
+            },
+            "Property": "Channel"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      },
+      {
+        "name": "b5fb83d4ebe869e2788a",
+        "displayName": "Customer",
+        "ordinal": 1,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "orbis_dimension_01"
+              }
+            },
+            "Property": "customer"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      },
+      {
+        "name": "f6930270bf647ff9f461",
+        "displayName": "Category",
+        "ordinal": 2,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "orbis_dimension_01"
+              }
+            },
+            "Property": "category"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      },
+      {
+        "name": "ab86b37a1aea0e25f72b",
+        "ordinal": 3,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "orbis_dimension_01"
+              }
+            },
+            "Property": "Segment"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      },
+      {
+        "name": "03e881d046b8f5dbac6a",
+        "ordinal": 4,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "orbis_dimension_01"
+              }
+            },
+            "Property": "Brand"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      },
+      {
+        "name": "905350924d82b5fbab8a",
+        "ordinal": 5,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "orbis_dimension_01"
+              }
+            },
+            "Property": "Product"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      },
+      {
+        "name": "44f22cbab703b24aeb49",
+        "displayName": "GTIN",
+        "ordinal": 6,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "orbis_dimension_01"
+              }
+            },
+            "Property": "Item_gtin"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      }
+    ],
+    "filterSortOrder": "Custom"
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "publicCustomVisuals": [
+    "advanceCardE03760C5AB684758B56AA29F9E6C257B",
+    "heatmapF244EA9EE1F34E828A80CF19B41976F8",
+    "PBI_CV_7B952816_A48F_49B4_9E13_15E3BB2C0337"
+  ],
+  "resourcePackages": [
+    {
+      "name": "SmartFilterProByOKVizA74D1E7C2AAFC95C0D364C2CB2671BDF_OrgStore",
+      "type": "OrganizationalStoreCustomVisual",
+      "items": [
+        {
+          "name": "resources/SmartFilterProByOKVizA74D1E7C2AAFC95C0D364C2CB2671BDF_OrgStore.pbiviz.json",
+          "path": "1/3596192b-fdf5-4e2c-a6fa-acb706c963d8/ResourcePackage/BlobIdV2-c0a3901a-8b38-4f9d-be28-bbb9cc7ade4278L.Lt9ee6LRR.json",
+          "type": "CustomVisualMetadata"
+        }
+      ]
+    },
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "CY24SU10",
+          "path": "BaseThemes/CY24SU10.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "Appstore_(2)2323074948701629.png",
+          "path": "Appstore_(2)2323074948701629.png",
+          "type": "Image"
+        },
+        {
+          "name": "Mail_(1)6922039932714588.png",
+          "path": "Mail_(1)6922039932714588.png",
+          "type": "Image"
+        },
+        {
+          "name": "Mask_group_1491501688578476.png",
+          "path": "Mask_group_1491501688578476.png",
+          "type": "Image"
+        },
+        {
+          "name": "Orbis_Home7597517244478226.svg",
+          "path": "Orbis_Home7597517244478226.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Orbis_Logo_3-NoBG37457324894224997.png",
+          "path": "Orbis_Logo_3-NoBG37457324894224997.png",
+          "type": "Image"
+        },
+        {
+          "name": "Orbis_multi_color_bg_18384194858536793.png",
+          "path": "Orbis_multi_color_bg_18384194858536793.png",
+          "type": "Image"
+        },
+        {
+          "name": "Orbis_Sales_and_Shipment5189082274794292.svg",
+          "path": "Orbis_Sales_and_Shipment5189082274794292.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Orbis_Share_pages6258546158304915.svg",
+          "path": "Orbis_Share_pages6258546158304915.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Orbis_Share_pages8448437963817907.svg",
+          "path": "Orbis_Share_pages8448437963817907.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Orbis_Trend_BG08326888334057203.svg",
+          "path": "Orbis_Trend_BG08326888334057203.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Orbis_Trend_BG277097015309398.svg",
+          "path": "Orbis_Trend_BG277097015309398.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Orbis_Trend_BG9906201631496727.svg",
+          "path": "Orbis_Trend_BG9906201631496727.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Orbis_Trend_BG9906201631496727656318460593275.svg",
+          "path": "Orbis_Trend_BG9906201631496727656318460593275.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Orbis_Trend_BG99062016314967278563799571935524.svg",
+          "path": "Orbis_Trend_BG99062016314967278563799571935524.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Orbis_Trend_BG99062016314967278979289204511585.svg",
+          "path": "Orbis_Trend_BG99062016314967278979289204511585.svg",
+          "type": "Image"
+        },
+        {
+          "name": "Rectangle_2_(1)638768565588284.png",
+          "path": "Rectangle_2_(1)638768565588284.png",
+          "type": "Image"
+        },
+        {
+          "name": "Shipped_and_Invoiced7730719772980266.png",
+          "path": "Shipped_and_Invoiced7730719772980266.png",
+          "type": "Image"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "allowInlineExploration": true,
+    "useEnhancedTooltips": true,
+    "useDefaultAggregateDisplayName": true,
+    "queryLimitOption": "None",
+    "customMemoryLimit": "1048576",
+    "customTimeoutLimit": "225"
+  }
+}

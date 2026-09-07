@@ -1,0 +1,25 @@
+table 'Shipments Toggle Volume'
+	lineageTag: 268e7d40-8ada-4943-bab6-484cced80e64
+
+	column 'Show Shipments'
+		lineageTag: dc2d73c5-2256-42a7-a0b3-11a9ae7ecd65
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Show Shipments]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Shipments Toggle Volume' = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "Show Shipments", STRING,
+				    {
+				        { "Off" },
+				        { "On" }
+				    }
+				)
+
+	annotation PBI_Id = a2663244696f4bc1aa2848278fa5cc6c
+

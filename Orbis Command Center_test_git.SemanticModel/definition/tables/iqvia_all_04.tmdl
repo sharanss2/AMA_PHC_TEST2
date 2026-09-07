@@ -1,0 +1,158 @@
+table iqvia_all_04
+	lineageTag: 04d85ddd-9380-474b-8337-65d0687d6ae9
+
+	column DataType
+		dataType: string
+		lineageTag: 39baae18-e867-442d-91fd-21a1fecc6388
+		summarizeBy: none
+		sourceColumn: DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column period_end_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: adad4e50-d72a-479b-9fb2-9d0af7183efc
+		summarizeBy: none
+		sourceColumn: period_end_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Customer
+		dataType: string
+		lineageTag: f90699f0-3e32-4bd6-adc6-b5f810f6acf1
+		summarizeBy: none
+		sourceColumn: Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 417686e2-2828-420c-bd46-545ca136ba22
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: ea76e87e-b7b2-41c3-9826-d52f4e746e85
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: cdeb14a3-8df1-46f1-b5af-920c5b62de43
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column gtin_or_nappi
+		dataType: string
+		lineageTag: bcbc77a3-e7aa-4a93-8d3e-73c382a57733
+		summarizeBy: none
+		sourceColumn: gtin_or_nappi
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: ed91200e-d865-4b39-9dfa-b521a8c5c2dc
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column RxOtc
+		dataType: string
+		lineageTag: 7a0aa02a-4a77-4d5c-a5f7-dae3fc6dff37
+		summarizeBy: none
+		sourceColumn: RxOtc
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sales
+		dataType: double
+		lineageTag: d4fdc238-f18d-4922-9e41-0d3a08b5882d
+		summarizeBy: sum
+		sourceColumn: Sales
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Units
+		dataType: double
+		lineageTag: 85e7c1c1-5bde-46a8-baee-a9843b6ab1ae
+		summarizeBy: sum
+		sourceColumn: Units
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Sales_MSU
+		dataType: double
+		lineageTag: 3480b779-232d-4f5f-9202-af04edf4b948
+		summarizeBy: sum
+		sourceColumn: Sales_MSU
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Channel
+		dataType: string
+		lineageTag: ed9bcf32-c16f-413d-9ec0-2c3a3d41874f
+		summarizeBy: none
+		sourceColumn: Channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column Key
+		dataType: string
+		lineageTag: d42fa8cc-4346-4f17-8557-679c561d5b97
+		summarizeBy: none
+		sourceColumn: Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'P&G Flag' = LOOKUPVALUE(orbis_dimension_01[P&G Flag], orbis_dimension_01[Brand], iqvia_all_04[Brand])
+		formatString: 0
+		lineageTag: 8604010e-8f56-4045-b0ab-bb8b28f6051f
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition iqvia_all_04 = m
+		mode: import
+		source = ```
+				let
+				    Source = Value.NativeQuery(Databricks.Catalogs("adb-6342212884588594.14.azuredatabricks.net", "/sql/1.0/warehouses/963202ff1d6a9955", [Catalog="dap_hc_01_dev", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", MetricViewBiCompatibilityMode=null]){[Name="dap_hc_01_dev",Kind="Database"]}[Data], "select * from dap_hc_01_dev.gold_orbis.iqvia_all_04", null, [EnableFolding=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(Source,{{"period_end_date", type date}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type1", each [period_end_date] >= #date(2024, 3, 1)),
+				    #"Added Custom" = Table.AddColumn(#"Filtered Rows", "Channel", each "NA"),
+				    #"Uppercased Text" = Table.TransformColumns(#"Added Custom",{{"Customer", Text.Upper, type text}, {"Category", Text.Upper, type text}, {"Brand", Text.Upper, type text}, {"Segment", Text.Upper, type text}, {"Product", Text.Upper, type text}, {"DataType", Text.Upper, type text}, {"Channel", Text.Upper, type text}, {"gtin_or_nappi", Text.Upper, type text}}),
+				    #"Trimmed Text" = Table.TransformColumns(#"Uppercased Text",{{"Customer", Text.Trim, type text}, {"Category", Text.Trim, type text}, {"Brand", Text.Trim, type text}, {"Segment", Text.Trim, type text}, {"Product", Text.Trim, type text}, {"DataType", Text.Trim, type text}, {"Channel", Text.Trim, type text}, {"gtin_or_nappi", Text.Trim, type text}}),
+				    #"Added Custom2" = Table.AddColumn(#"Trimmed Text", "Key", each Text.Combine({
+				        Text.From([DataType]), 
+				        Text.From([Channel]), 
+				        Text.From([Customer]), 
+				        Text.From([Category]), 
+				        Text.From([Segment]), 
+				        Text.From([Brand]), 
+				        Text.From([Product])
+				    }, ""))
+				in
+				    #"Added Custom2"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

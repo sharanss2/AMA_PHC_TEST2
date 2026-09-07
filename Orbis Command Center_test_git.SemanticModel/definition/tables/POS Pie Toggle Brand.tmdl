@@ -1,0 +1,37 @@
+table 'POS Pie Toggle Brand'
+	lineageTag: a249344f-80f4-4800-acac-3988ced47618
+
+	measure 'POS Pie Display Brand' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( 'POS Pie Toggle Brand'[Metric], "Value" ),
+			    "Value", [POS Sales MM Page],
+			    "Volume (MSU)", [POS Sales MSU Page],
+			    [POS Sales MM Page]
+			)
+		lineageTag: 41ef452d-fa1a-4fab-a9ca-fc4fce2553ef
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Metric
+		lineageTag: 5534aa2b-15db-48df-b032-42e5afbf6eb0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Metric]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'POS Pie Toggle Brand' = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "Metric", STRING,
+				    {
+				        { "Value" },
+				        { "Volume (MSU)" }
+				    }
+				)
+
+	annotation PBI_Id = 8aa131ac5f694c4790dd7d9a1fb26bcb
+

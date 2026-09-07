@@ -1,0 +1,185 @@
+table rtdx_data_02
+	lineageTag: 6701fcd1-f008-4b58-9688-113067e32441
+
+	column time_period_end_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f6934ab5-f477-4f06-ba18-7ab96195a6e8
+		summarizeBy: none
+		sourceColumn: time_period_end_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column data_provider_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 74bcc01f-57bf-47dd-b0eb-447a7641f430
+		summarizeBy: sum
+		sourceColumn: data_provider_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer
+		dataType: string
+		lineageTag: 206be9c3-a202-489d-aa7c-e83917c48d86
+		summarizeBy: none
+		sourceColumn: Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column Company
+		dataType: string
+		lineageTag: 82dfbf8c-9c60-4f14-821e-37800fd8f3b0
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: a46ead53-bbcc-474d-8720-9ffca1eeb0d9
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: 81aad280-6e8b-406b-9c94-c9aeb438c816
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column Item_gtin
+		dataType: string
+		lineageTag: 22b04743-465a-4d6f-966c-511fc54803a1
+		summarizeBy: none
+		sourceColumn: Item_gtin
+
+		annotation SummarizationSetBy = Automatic
+
+	column FPC
+		dataType: string
+		lineageTag: 8869aba1-c5d5-4343-b67c-52a32b0ed882
+		summarizeBy: none
+		sourceColumn: FPC
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataType
+		dataType: string
+		lineageTag: 784a50a6-f9dc-4cc5-bfcf-abc8ea8d9f6d
+		summarizeBy: none
+		sourceColumn: DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: 392d06e9-85d3-4cf7-95ad-e64b6159befa
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: 2a69b09b-6236-4858-8cb6-e0b89dd1f388
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column Units_Sold
+		dataType: double
+		lineageTag: 78134744-393f-4707-9314-8aeedc3daca0
+		summarizeBy: sum
+		sourceColumn: Units_Sold
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Sales
+		dataType: double
+		lineageTag: 4604cdce-dddb-42e7-a09f-09e56bd79c3c
+		summarizeBy: sum
+		sourceColumn: Sales
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Sales_MSU
+		dataType: double
+		lineageTag: db011d25-d6c7-4196-b424-9751e2bb6c09
+		summarizeBy: sum
+		sourceColumn: Sales_MSU
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Channel_pbi = LOOKUPVALUE(shipmenets_data_07[Channel], shipmenets_data_07[Customer], rtdx_data_02[Customer])
+		lineageTag: b48c8245-8920-4e8b-9550-7c94ac8c0208
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Channel
+		dataType: string
+		lineageTag: d413e8cb-b5ac-4295-aa3c-42d252e9da8f
+		summarizeBy: none
+		sourceColumn: Channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'DataType.1'
+		dataType: string
+		lineageTag: 54aa81d9-13d9-4588-a499-5a54197039da
+		summarizeBy: none
+		sourceColumn: DataType.1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Key
+		dataType: string
+		lineageTag: fb6bbb5f-f7a5-474f-9969-9431e273b4fa
+		summarizeBy: none
+		sourceColumn: Key
+
+		annotation SummarizationSetBy = Automatic
+
+	partition rtdx_data_02 = m
+		mode: import
+		source = ```
+				let
+				    Source = Databricks.Catalogs("adb-6342212884588594.14.azuredatabricks.net", "/sql/1.0/warehouses/963202ff1d6a9955", [Catalog=null, Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation=null]),
+				    dap_hc_01_dev_Database = Source{[Name="dap_hc_01_dev",Kind="Database"]}[Data],
+				    gold_orbis_Schema = dap_hc_01_dev_Database{[Name="gold_orbis",Kind="Schema"]}[Data],
+				    pos_data_01_Table = gold_orbis_Schema{[Name="rtdx_data_04",Kind="Table"]}[Data],
+				    #"Added Custom" = Table.AddColumn(pos_data_01_Table, "DataType.1", each "RTDX"),
+				    #"Uppercased Text" = Table.TransformColumns(#"Added Custom",{{"Customer", Text.Upper, type text}, {"Channel", Text.Upper, type text}, {"Category", Text.Upper, type text}, {"Brand", Text.Upper, type text}, {"Item_gtin", Text.Upper, type text}, {"Product", Text.Upper, type text}, {"Segment", Text.Upper, type text}, {"DataType", Text.Upper, type text}}),
+				    #"Trimmed Text" = Table.TransformColumns(#"Uppercased Text",{{"Customer", Text.Trim, type text}, {"Channel", Text.Trim, type text}, {"Category", Text.Trim, type text}, {"Brand", Text.Trim, type text}, {"Item_gtin", Text.Trim, type text}, {"Product", Text.Trim, type text}, {"Segment", Text.Trim, type text}, {"DataType", Text.Trim, type text}}),
+				    #"Added Custom1" = Table.AddColumn(#"Trimmed Text", "Key", each 
+				    Text.Combine({
+				        Text.From([DataType]), 
+				        Text.From([Channel]), 
+				        Text.From([Customer]), 
+				        Text.From([Category]), 
+				        Text.From([Segment]), 
+				        Text.From([Brand]), 
+				        Text.From([Product])
+				    }, "")
+				)
+				in
+				    #"Added Custom1"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

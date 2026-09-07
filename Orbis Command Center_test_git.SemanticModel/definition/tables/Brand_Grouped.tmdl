@@ -1,0 +1,1429 @@
+table Brand_Grouped
+	lineageTag: 369ea93b-7d2a-4514-b008-8d10fcc2200d
+
+	measure 'IQVIA Value PXM (Explicit DT) TEST' =
+			
+			VAR HasExplicitDT =
+			    ISFILTERED ( 'DataType Slicer'[DataType] )
+			
+			VAR SelectedDT =
+			    VALUES ( 'DataType Slicer'[DataType] )
+			
+			VAR IncludeCA =
+			    NOT HasExplicitDT
+			        || CONTAINS (
+			            SelectedDT,
+			            'DataType Slicer'[DataType], "IQVIA_CONSUMERAISLE"
+			        )
+			
+			VAR IncludeFS =
+			    NOT HasExplicitDT
+			        || CONTAINS (
+			            SelectedDT,
+			            'DataType Slicer'[DataType], "IQVIA_FRONTSHOP"
+			        )
+			
+			VAR IncludeBS =
+			    NOT HasExplicitDT
+			        || CONTAINS (
+			            SelectedDT,
+			            'DataType Slicer'[DataType], "IQVIA_BACKSHOP"
+			        )
+			
+			VAR CustomerFiltered =
+			    ISFILTERED ( orbis_dimension_01[customer] )
+			
+			VAR CAValue =
+			    IF (
+			        IncludeCA,
+			        IF (
+			            CustomerFiltered,
+			            CALCULATE (
+			                [Value PXM],
+			                REMOVEFILTERS ( orbis_dimension_01[DataType] ),
+			                KEEPFILTERS ( orbis_dimension_01[DataType] = "IQVIA_CONSUMERAISLE" )
+			            ),
+			            CALCULATE (
+			                [Value PXM],
+			                REMOVEFILTERS ( orbis_dimension_01[customer], orbis_dimension_01[DataType] ),
+			                KEEPFILTERS ( orbis_dimension_01[customer] = "TOTAL TD/ST" ),
+			                KEEPFILTERS ( orbis_dimension_01[DataType] = "IQVIA_CONSUMERAISLE" )
+			            )
+			        ),
+			        0
+			    )
+			
+			VAR FSValue =
+			    IF (
+			        IncludeFS,
+			        CALCULATE (
+			            [Value PXM],
+			            REMOVEFILTERS ( orbis_dimension_01[DataType] ),
+			            KEEPFILTERS ( orbis_dimension_01[DataType] = "IQVIA_FRONTSHOP" )
+			        ),
+			        0
+			    )
+			
+			VAR BSValue =
+			    IF (
+			        IncludeBS,
+			        CALCULATE (
+			            [Value PXM],
+			            REMOVEFILTERS ( orbis_dimension_01[DataType] ),
+			            KEEPFILTERS ( orbis_dimension_01[DataType] = "IQVIA_BACKSHOP" )
+			        ),
+			        0
+			    )
+			
+			RETURN
+			    CAValue + FSValue + BSValue
+		lineageTag: 782e9350-2318-46ec-ace6-5e587534a274
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'IQVIA Segment Total Value PXM (Explicit DT) TEST' =
+			
+			CALCULATE (
+			    [IQVIA Value PXM (Explicit DT) TEST],
+			    REMOVEFILTERS (
+			        orbis_dimension_01[PG Category],
+			        orbis_dimension_01[Brand],
+			        orbis_dimension_01[Product],
+			        orbis_dimension_01[P&G Flag]
+			    )
+			)
+			// VAR HasExplicitDT =
+			//     ISFILTERED ( 'DataType Slicer'[DataType] )
+			
+			// VAR SelectedDT =
+			//     VALUES ( 'DataType Slicer'[DataType] )
+			
+			// VAR IncludeCA =
+			//     NOT HasExplicitDT
+			//         || CONTAINS (
+			//             SelectedDT,
+			//             'DataType Slicer'[DataType], "IQVIA_CONSUMERAISLE"
+			//         )
+			
+			// VAR IncludeFS =
+			//     NOT HasExplicitDT
+			//         || CONTAINS (
+			//             SelectedDT,
+			//             'DataType Slicer'[DataType], "IQVIA_FRONTSHOP"
+			//         )
+			
+			// VAR IncludeBS =
+			//     NOT HasExplicitDT
+			//         || CONTAINS (
+			//             SelectedDT,
+			//             'DataType Slicer'[DataType], "IQVIA_BACKSHOP"
+			//         )
+			
+			// VAR CustomerFiltered =
+			//     ISFILTERED ( orbis_dimension_01[customer] )
+			
+			// VAR CADenom =
+			//     IF (
+			//         IncludeCA,
+			//         IF (
+			//             CustomerFiltered,
+			//             CALCULATE (
+			//                 [Value PXM],
+			//                 REMOVEFILTERS (
+			//                     orbis_dimension_01[DataType],
+			//                     orbis_dimension_01[Brand],
+			//                     orbis_dimension_01[Product],
+			//                     orbis_dimension_01[PG Category],
+			//                     orbis_dimension_01[P&G Flag]
+			//                 ),
+			//                 KEEPFILTERS ( orbis_dimension_01[DataType] = "IQVIA_CONSUMERAISLE" )
+			//             ),
+			//             CALCULATE (
+			//                 [Value PXM],
+			//                 REMOVEFILTERS (
+			//                     orbis_dimension_01[customer],
+			//                     orbis_dimension_01[DataType],
+			//                     orbis_dimension_01[Brand],
+			//                     orbis_dimension_01[Product],
+			//                     orbis_dimension_01[PG Category],
+			//                     orbis_dimension_01[P&G Flag]
+			//                 ),
+			//                 KEEPFILTERS ( orbis_dimension_01[customer] = "TOTAL TD/ST" ),
+			//                 KEEPFILTERS ( orbis_dimension_01[DataType] = "IQVIA_CONSUMERAISLE" )
+			//             )
+			//         ),
+			//         0
+			//     )
+			
+			// VAR FSDenom =
+			//     IF (
+			//         IncludeFS,
+			//         CALCULATE (
+			//             [Value PXM],
+			//             REMOVEFILTERS (
+			//                 orbis_dimension_01[DataType],
+			//                 orbis_dimension_01[Brand],
+			//                 orbis_dimension_01[Product],
+			//                 orbis_dimension_01[PG Category],
+			//                 orbis_dimension_01[P&G Flag]
+			//             ),
+			//             KEEPFILTERS ( orbis_dimension_01[DataType] = "IQVIA_FRONTSHOP" )
+			//         ),
+			//         0
+			//     )
+			
+			// VAR BSDenom =
+			//     IF (
+			//         IncludeBS,
+			//         CALCULATE (
+			//             [Value PXM],
+			//             REMOVEFILTERS (
+			//                 orbis_dimension_01[DataType],
+			//                 orbis_dimension_01[Brand],
+			//                 orbis_dimension_01[Product],
+			//                 orbis_dimension_01[PG Category],
+			//                 orbis_dimension_01[P&G Flag]
+			//             ),
+			//             KEEPFILTERS ( orbis_dimension_01[DataType] = "IQVIA_BACKSHOP" )
+			//         ),
+			//         0
+			//     )
+			
+			// RETURN
+			//     CADenom + FSDenom + BSDenom
+		lineageTag: 6df17b86-da23-4da5-aba7-d538c0f801f2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'IQVIA Brand Segment Total Value PXM (Explicit DT) TEST' =
+			
+			CALCULATE (
+			    [IQVIA Value PXM (Explicit DT) TEST],
+			    REMOVEFILTERS (
+			        orbis_dimension_01[Product]
+			    )
+			)
+			// VAR HasExplicitDT =
+			//     ISFILTERED ( 'DataType Slicer'[DataType] )
+			
+			// VAR SelectedDT =
+			//     VALUES ( 'DataType Slicer'[DataType] )
+			
+			// VAR IncludeCA =
+			//     NOT HasExplicitDT
+			//         || CONTAINS (
+			//             SelectedDT,
+			//             'DataType Slicer'[DataType], "IQVIA_CONSUMERAISLE"
+			//         )
+			
+			// VAR IncludeFS =
+			//     NOT HasExplicitDT
+			//         || CONTAINS (
+			//             SelectedDT,
+			//             'DataType Slicer'[DataType], "IQVIA_FRONTSHOP"
+			//         )
+			
+			// VAR IncludeBS =
+			//     NOT HasExplicitDT
+			//         || CONTAINS (
+			//             SelectedDT,
+			//             'DataType Slicer'[DataType], "IQVIA_BACKSHOP"
+			//         )
+			
+			// VAR CustomerFiltered =
+			//     ISFILTERED ( orbis_dimension_01[customer] )
+			
+			// VAR CADenom =
+			//     IF (
+			//         IncludeCA,
+			//         IF (
+			//             CustomerFiltered,
+			//             CALCULATE (
+			//                 [Value PXM],
+			//                 REMOVEFILTERS (
+			//                     orbis_dimension_01[DataType],
+			//                     orbis_dimension_01[Product]
+			//                 ),
+			//                 KEEPFILTERS ( orbis_dimension_01[DataType] = "IQVIA_CONSUMERAISLE" )
+			//             ),
+			//             CALCULATE (
+			//                 [Value PXM],
+			//                 REMOVEFILTERS (
+			//                     orbis_dimension_01[customer],
+			//                     orbis_dimension_01[DataType],
+			//                     orbis_dimension_01[Product]
+			//                 ),
+			//                 KEEPFILTERS ( orbis_dimension_01[customer] = "TOTAL TD/ST" ),
+			//                 KEEPFILTERS ( orbis_dimension_01[DataType] = "IQVIA_CONSUMERAISLE" )
+			//             )
+			//         ),
+			//         0
+			//     )
+			
+			// VAR FSDenom =
+			//     IF (
+			//         IncludeFS,
+			//         CALCULATE (
+			//             [Value PXM],
+			//             REMOVEFILTERS (
+			//                 orbis_dimension_01[DataType],
+			//                 orbis_dimension_01[Product]
+			//             ),
+			//             KEEPFILTERS ( orbis_dimension_01[DataType] = "IQVIA_FRONTSHOP" )
+			//         ),
+			//         0
+			//     )
+			
+			// VAR BSDenom =
+			//     IF (
+			//         IncludeBS,
+			//         CALCULATE (
+			//             [Value PXM],
+			//             REMOVEFILTERS (
+			//                 orbis_dimension_01[DataType],
+			//                 orbis_dimension_01[Product]
+			//             ),
+			//             KEEPFILTERS ( orbis_dimension_01[DataType] = "IQVIA_BACKSHOP" )
+			//         ),
+			//         0
+			//     )
+			
+			// RETURN
+			//     CADenom + FSDenom + BSDenom
+		lineageTag: 19371481-c7f5-4d7d-b862-f44f99921491
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SKU Value Share TEST' =
+			
+			DIVIDE (
+			    [IQVIA Value PXM (Explicit DT) TEST],
+			    [IQVIA Segment Total Value PXM (Explicit DT) TEST],
+			    BLANK ()
+			)
+		lineageTag: f31cc56c-4da6-4cf8-ae55-118184f7ceae
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SKU Value Salience TEST' =
+			
+			DIVIDE (
+			    [IQVIA Value PXM (Explicit DT) TEST],
+			    [IQVIA Brand Segment Total Value PXM (Explicit DT) TEST],
+			    BLANK ()
+			)
+		lineageTag: 705fafb2-74ff-470f-960b-799f0436e1d5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'DEBUG SKU Share Numerator TEST' =
+			
+			[IQVIA Value PXM (Explicit DT) TEST]
+		lineageTag: 7749ae84-adfa-4662-a941-a8bfb4f24dcc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'DEBUG SKU Share Denominator TEST' =
+			
+			[IQVIA Segment Total Value PXM (Explicit DT) TEST]
+		lineageTag: af331222-85b1-4baf-b3bb-a39db42fa105
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'DEBUG SKU Salience Denominator TEST' =
+			
+			[IQVIA Brand Segment Total Value PXM (Explicit DT) TEST]
+		lineageTag: 12fd09bf-2e38-41b7-9e22-ef9d52384325
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'DEBUG SKU Salience Numerator TEST' =
+			
+			[IQVIA Value PXM (Explicit DT) TEST]
+		lineageTag: ce297c95-19ec-42be-a3c4-1f5666033d1e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'DEBUG Customer Filter Branch' =
+			
+			IF (
+			    ISFILTERED ( orbis_dimension_01[customer] ),
+			    "Customer selected",
+			    "No customer selected -> use TOTAL TD/ST for CA"
+			)
+		lineageTag: 7ef29a0e-fa9f-4ca6-b42a-996ecbc009ad
+
+	measure 'DEBUG CA Customer Logic' =
+			
+			VAR CustomerFiltered =
+			    ISFILTERED ( orbis_dimension_01[customer] )
+			RETURN
+			IF (
+			    CustomerFiltered,
+			    "Using selected customer(s) for CA",
+			    "Using TOTAL TD/ST for CA"
+			)
+		lineageTag: ad125ec9-9141-4fe4-afd6-814bdc76e0b7
+
+	measure 'IQVIA Brand Total Value PXM (Explicit DT) TEST' =
+			
+			CALCULATE (
+			    [IQVIA Value PXM (Explicit DT) TEST],
+			    REMOVEFILTERS (
+			        orbis_dimension_01[Segment],
+			        orbis_dimension_01[Product]
+			    )
+			)
+		lineageTag: 8d6826cc-5556-43cc-9688-9395e5ad102b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'IQVIA Category Total Value PXM (Explicit DT) TEST' =
+			
+			CALCULATE (
+			    [IQVIA Value PXM (Explicit DT) TEST],
+			    REMOVEFILTERS (
+			        orbis_dimension_01[PG Category],
+			        orbis_dimension_01[Brand],
+			        orbis_dimension_01[Segment],
+			        orbis_dimension_01[Product],
+			        orbis_dimension_01[P&G Flag]
+			    )
+			)
+		lineageTag: 980800d1-e993-425f-9118-4d901df20f0d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'P&G Category Value Share TEST' =
+			
+			DIVIDE (
+			    [IQVIA Value PXM (Explicit DT) TEST],
+			    [IQVIA Category Total Value PXM (Explicit DT) TEST],
+			    BLANK ()
+			)
+		lineageTag: db4db7df-a8a9-45ac-bdd4-f136b6e4e725
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Brand Value Share TEST' =
+			
+			DIVIDE (
+			    [IQVIA Value PXM (Explicit DT) TEST],
+			    [IQVIA Category Total Value PXM (Explicit DT) TEST],
+			    BLANK ()
+			)
+		lineageTag: 393bc635-485c-4bc8-9a75-651f883da70f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Segment Value Share TEST' =
+			
+			DIVIDE (
+			    [IQVIA Value PXM (Explicit DT) TEST],
+			    [IQVIA Segment Total Value PXM (Explicit DT) TEST],
+			    BLANK ()
+			)
+		lineageTag: c0cc7169-3502-45ac-8f93-d10a2bdd5768
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Measure 3'
+		lineageTag: 68a0f178-a8a9-45d5-83c8-c3cf6b20a51b
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	measure 'Value Share new TEST' =
+			
+			SWITCH (
+			    TRUE (),
+			    ISINSCOPE ( orbis_dimension_01[Product] ), [SKU Value Share TEST],
+			    ISINSCOPE ( orbis_dimension_01[Segment] ), [Segment Value Share TEST],
+			    ISINSCOPE ( orbis_dimension_01[Brand] ), [Brand Value Share TEST],
+			    ISINSCOPE ( orbis_dimension_01[PG Category] ), [P&G Category Value Share TEST],
+			    ISINSCOPE ( orbis_dimension_01[Category] ), 1,
+			    1
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 7184c14f-919e-4e28-8a3c-ef4114c3a608
+
+	measure 'Value Salience new TEST' =
+			
+			SWITCH (
+			    TRUE (),
+			    ISINSCOPE ( orbis_dimension_01[Product] ), [SKU Value Salience TEST],
+			    ISINSCOPE ( orbis_dimension_01[Segment] ), [Segment Value Salience TEST],
+			    ISINSCOPE ( orbis_dimension_01[Brand] ), [Brand Value Share TEST],
+			    ISINSCOPE ( orbis_dimension_01[PG Category] ), [P&G Category Value Share TEST],
+			    ISINSCOPE ( orbis_dimension_01[Category] ), 1,
+			    1
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 498f512c-e9a8-40bb-a8a4-ae4c563762ad
+
+	measure 'Value New Card TEST' = ```
+			
+			DIVIDE ( [IQVIA Value PXM (Explicit DT) TEST], 1000000 )
+			
+			```
+		lineageTag: b7067a52-8847-4aa5-8416-f1f0abceb229
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'IQVIA Value PXM LY (Explicit DT) TEST' =
+			
+			CALCULATE (
+			    [IQVIA Value PXM (Explicit DT) TEST],
+			    DATEADD ( DateTable[Date], -1, YEAR )
+			)
+		lineageTag: 8164e5e1-4840-40de-9956-747cff101230
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Value IYA PXM TEST' =
+			
+			IF (
+			    [IYA Visibility Filter IQVIA] = 0,
+			    BLANK(),
+			    DIVIDE (
+			        [IQVIA Value PXM (Explicit DT) TEST],
+			        [IQVIA Value PXM LY (Explicit DT) TEST],
+			        BLANK()
+			    ) * 100
+			)
+		formatString: 0.0
+		lineageTag: 0d52fb23-fcff-48b3-9375-f8147973f97b
+
+	measure 'Value Share new LY TEST' =
+			
+			CALCULATE (
+			    [Value Share new TEST],
+			    DATEADD ( DateTable[Date], -1, YEAR )
+			)
+		lineageTag: 84078eeb-a38b-4da5-b1ec-5bc289a9057e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Value Share DYA TEST' =
+			
+			[Value Share new TEST] - [Value Share new LY TEST]
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: b41f2b67-7635-4a96-9b8b-117ae31c3b3d
+
+	measure 'IQVIA Volume PXM (Explicit DT) TEST' =
+			
+			VAR HasExplicitDT =
+			    ISFILTERED ( 'DataType Slicer'[DataType] )
+			
+			VAR SelectedDT =
+			    VALUES ( 'DataType Slicer'[DataType] )
+			
+			VAR IncludeCA =
+			    NOT HasExplicitDT
+			        || CONTAINS (
+			            SelectedDT,
+			            'DataType Slicer'[DataType], "IQVIA_CONSUMERAISLE"
+			        )
+			
+			VAR IncludeFS =
+			    NOT HasExplicitDT
+			        || CONTAINS (
+			            SelectedDT,
+			            'DataType Slicer'[DataType], "IQVIA_FRONTSHOP"
+			        )
+			
+			VAR IncludeBS =
+			    NOT HasExplicitDT
+			        || CONTAINS (
+			            SelectedDT,
+			            'DataType Slicer'[DataType], "IQVIA_BACKSHOP"
+			        )
+			
+			VAR CustomerFiltered =
+			    ISFILTERED ( orbis_dimension_01[customer] )
+			
+			VAR CAValue =
+			    IF (
+			        IncludeCA,
+			        IF (
+			            CustomerFiltered,
+			            CALCULATE (
+			                [Volume (Units) PXM],
+			                REMOVEFILTERS ( orbis_dimension_01[DataType] ),
+			                KEEPFILTERS ( orbis_dimension_01[DataType] = "IQVIA_CONSUMERAISLE" )
+			            ),
+			            CALCULATE (
+			                [Volume (Units) PXM],
+			                REMOVEFILTERS ( orbis_dimension_01[customer], orbis_dimension_01[DataType] ),
+			                KEEPFILTERS ( orbis_dimension_01[customer] = "TOTAL TD/ST" ),
+			                KEEPFILTERS ( orbis_dimension_01[DataType] = "IQVIA_CONSUMERAISLE" )
+			            )
+			        ),
+			        0
+			    )
+			
+			VAR FSValue =
+			    IF (
+			        IncludeFS,
+			        CALCULATE (
+			            [Volume (Units) PXM],
+			            REMOVEFILTERS ( orbis_dimension_01[DataType] ),
+			            KEEPFILTERS ( orbis_dimension_01[DataType] = "IQVIA_FRONTSHOP" )
+			        ),
+			        0
+			    )
+			
+			VAR BSValue =
+			    IF (
+			        IncludeBS,
+			        CALCULATE (
+			            [Volume (Units) PXM],
+			            REMOVEFILTERS ( orbis_dimension_01[DataType] ),
+			            KEEPFILTERS ( orbis_dimension_01[DataType] = "IQVIA_BACKSHOP" )
+			        ),
+			        0
+			    )
+			
+			RETURN
+			    CAValue + FSValue + BSValue
+		lineageTag: 24542f42-9d22-4870-a591-e9f4b1d3710f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'IQVIA Volume PXM LY (Explicit DT) TEST' =
+			
+			CALCULATE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    DATEADD ( DateTable[Date], -1, YEAR )
+			)
+		lineageTag: 2becc2a1-b9c1-4357-8718-e18d4a51856c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'IQVIA Category Total Volume PXM (Explicit DT) TEST' =
+			
+			CALCULATE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    REMOVEFILTERS (
+			        orbis_dimension_01[PG Category],
+			        orbis_dimension_01[Brand],
+			        orbis_dimension_01[Segment],
+			        orbis_dimension_01[Product],
+			        orbis_dimension_01[P&G Flag]
+			    )
+			)
+		lineageTag: a6dc8094-8a53-41f0-bfc0-30d5935f6dbe
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'IQVIA Segment Total Volume PXM (Explicit DT) TEST' =
+			
+			CALCULATE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    REMOVEFILTERS (
+			        orbis_dimension_01[PG Category],
+			        orbis_dimension_01[Brand],
+			        orbis_dimension_01[Product],
+			        orbis_dimension_01[P&G Flag]
+			    )
+			)
+		lineageTag: 23512385-539c-483a-b4d5-45f8392fe551
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'IQVIA Brand Total Volume PXM (Explicit DT) TEST' =
+			
+			CALCULATE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    REMOVEFILTERS (
+			        orbis_dimension_01[Segment],
+			        orbis_dimension_01[Product]
+			    )
+			)
+		lineageTag: 0a6b3387-48e9-4ea2-aec6-0c656665abba
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'IQVIA Brand Segment Total Volume PXM (Explicit DT) TEST' =
+			
+			CALCULATE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    REMOVEFILTERS (
+			        orbis_dimension_01[Product]
+			    )
+			)
+		lineageTag: ad46b824-1243-4342-b2c7-04a840e38ed7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'P&G Category Volume Share TEST' =
+			
+			DIVIDE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    [IQVIA Category Total Volume PXM (Explicit DT) TEST],
+			    BLANK ()
+			)
+		lineageTag: 2dbe60e4-4dcf-4c3e-91b7-323f480c89b2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Brand Volume Share TEST' =
+			
+			DIVIDE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    [IQVIA Category Total Volume PXM (Explicit DT) TEST],
+			    BLANK ()
+			)
+		lineageTag: ad2828c6-a055-4d49-a8cb-b7bb7ac07537
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Segment Volume Share TEST' =
+			
+			DIVIDE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    [IQVIA Segment Total Volume PXM (Explicit DT) TEST],
+			    BLANK ()
+			)
+		lineageTag: 2358ea6c-8c21-45e9-a26f-2144bd2d9690
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SKU Volume Share TEST' =
+			
+			DIVIDE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    [IQVIA Segment Total Volume PXM (Explicit DT) TEST],
+			    BLANK ()
+			)
+		lineageTag: a4f64ac6-9b51-4adf-949d-ed2bdb1b74d6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Segment Volume Salience TEST' =
+			
+			DIVIDE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    [IQVIA Brand Total Volume PXM (Explicit DT) TEST],
+			    BLANK ()
+			)
+		lineageTag: 5274e7be-0a47-40af-b69b-7ddb0fad3c4d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SKU Volume Salience TEST' =
+			
+			DIVIDE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    [IQVIA Brand Segment Total Volume PXM (Explicit DT) TEST],
+			    BLANK ()
+			)
+		lineageTag: 5057c753-36f1-4e90-a15e-ac6467be1188
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Share new TEST' =
+			
+			SWITCH (
+			    TRUE (),
+			    ISINSCOPE ( orbis_dimension_01[Product] ), [SKU Volume Share TEST],
+			    ISINSCOPE ( orbis_dimension_01[Segment] ), [Segment Volume Share TEST],
+			    ISINSCOPE ( orbis_dimension_01[Brand] ), [Brand Volume Share TEST],
+			    ISINSCOPE ( orbis_dimension_01[PG Category] ), [P&G Category Volume Share TEST],
+			    ISINSCOPE ( orbis_dimension_01[Category] ), 1,
+			    1
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 2312c3c9-028e-4d41-8e54-dfdb2f4fe0b6
+
+	measure 'Volume Salience new TEST' =
+			
+			SWITCH (
+			    TRUE (),
+			    ISINSCOPE ( orbis_dimension_01[Product] ), [SKU Volume Salience TEST],
+			    ISINSCOPE ( orbis_dimension_01[Segment] ), [Segment Volume Salience TEST],
+			    ISINSCOPE ( orbis_dimension_01[Brand] ), [Brand Volume Share TEST],
+			    ISINSCOPE ( orbis_dimension_01[PG Category] ), [P&G Category Volume Share TEST],
+			    ISINSCOPE ( orbis_dimension_01[Category] ), 1,
+			    1
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 5e9faf74-406f-406d-aeb7-d20b84c7cf62
+
+	measure 'Volume New Card TEST' =
+			
+			[IQVIA Volume PXM (Explicit DT) TEST]
+		formatString: #,0
+		lineageTag: 43363262-3d97-4d41-9b64-ef8bf31e78ed
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Volume IYA PXM TEST' =
+			
+			IF (
+			    [IYA Visibility Filter IQVIA] = 0,
+			    BLANK(),
+			    DIVIDE (
+			        [IQVIA Volume PXM (Explicit DT) TEST],
+			        [IQVIA Volume PXM LY (Explicit DT) TEST],
+			        BLANK()
+			    ) * 100
+			)
+		formatString: 0.0
+		lineageTag: af259243-4571-4126-99c6-1c49409e25c5
+
+	measure 'Volume Share new LY TEST' =
+			
+			CALCULATE (
+			    [Volume Share new TEST],
+			    DATEADD ( DateTable[Date], -1, YEAR )
+			)
+		lineageTag: ebacc0f5-654e-41ef-a373-c3cd7ba72194
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Share DYA TEST' =
+			
+			[Volume Share new TEST] - [Volume Share new LY TEST]
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 3689e4b9-b51b-426f-9a48-ebd8550ffe5e
+
+	measure 'P&G Volume PXM (Explicit DT) TEST' =
+			
+			CALCULATE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    KEEPFILTERS ( orbis_dimension_01[P&G Flag] = 1 )
+			)
+		lineageTag: 2e61ad40-2e1f-40e6-9ac1-6bf8d6419e80
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'P&G Volume PXM LY (Explicit DT) TEST' =
+			
+			CALCULATE (
+			    [P&G Volume PXM (Explicit DT) TEST],
+			    DATEADD ( DateTable[Date], -1, YEAR )
+			)
+		lineageTag: 5a52a74a-b280-4335-a243-46bfbbbba21d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Card Total Volume PXM (Explicit DT) TEST' =
+			
+			CALCULATE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    REMOVEFILTERS (
+			        orbis_dimension_01[Brand],
+			        orbis_dimension_01[P&G Flag],
+			        orbis_dimension_01[Product],
+			        orbis_dimension_01[PG Category]
+			    )
+			)
+		lineageTag: b091f3f6-eeac-48fb-b30e-7ef1057207dc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Card TEST' =
+			
+			[P&G Volume MSU (Explicit DT) TEST]
+		formatString: 0.0
+		lineageTag: ff712362-015e-4bfd-a7ec-b2bbb32d0f16
+
+	measure 'Volume Share Card TEST' =
+			
+			DIVIDE (
+			    [P&G Volume PXM (Explicit DT) TEST],
+			    [Card Total Volume PXM (Explicit DT) TEST],
+			    BLANK ()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 11e6e552-f016-4a79-8935-3e26599a2e75
+
+	measure 'Volume New IYA TEST' =
+			
+			IF (
+			    [IYA Visibility Filter IQVIA] = 0,
+			    BLANK(),
+			    DIVIDE (
+			        [P&G Volume PXM (Explicit DT) TEST],
+			        [P&G Volume PXM LY (Explicit DT) TEST],
+			        BLANK ()
+			    ) * 100
+			)
+		formatString: 0.0
+		lineageTag: d3cdd95e-75a3-4670-8f15-a12c479b696c
+
+	measure 'Metric New Card TEST' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( 'Switcher Table'[Value/Volume] ),
+			    "Value", [Value New Card TEST],
+			    "Volume", [Volume New Card TEST],
+			    [Value New Card TEST]
+			)
+		lineageTag: c5643665-ee08-4ef2-be55-165ed47c0fbd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Metric Salience TEST' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( 'Switcher Table'[Value/Volume] ),
+			    "Value", [Value Salience new TEST],
+			    "Volume", [Volume Salience new TEST],
+			    [Value Salience new TEST]
+			)
+		lineageTag: 1a7dab64-7faa-498f-8ce1-e41fd7dc6088
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Metric Share TEST' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( 'Switcher Table'[Value/Volume] ),
+			    "Value", [Value Share new TEST],
+			    "Volume", [Volume Share new TEST],
+			    [Value Share new TEST]
+			)
+		lineageTag: d420ae7d-d67f-47fc-9c02-3200c015d45d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Metric IYA TEST' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( 'Switcher Table'[Value/Volume] ),
+			    "Value", [Value IYA PXM TEST],
+			    "Volume", [Volume IYA PXM TEST],
+			    [Value IYA PXM TEST]
+			)
+		lineageTag: 0df4258b-0fbe-482a-bd6c-1bc8579c0dbe
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Metric DYA TEST' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( 'Switcher Table'[Value/Volume] ),
+			    "Value", [Value Share DYA TEST],
+			    "Volume", [Volume Share DYA TEST],
+			    [Value Share DYA TEST]
+			)
+		lineageTag: 158ef3e9-e604-4c45-9fa7-0f53fcf2120a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Show Item for Selected DataType TEST' =
+			
+			VAR HasExplicitDT =
+			    ISFILTERED ( 'DataType Slicer'[DataType] )
+			
+			VAR SelectedDT =
+			    VALUES ( 'DataType Slicer'[DataType] )
+			
+			VAR RowCountForDT =
+			    IF (
+			        HasExplicitDT,
+			        CALCULATE (
+			            COUNTROWS ( iqvia_all_04 ),
+			            REMOVEFILTERS ( iqvia_all_04[DataType] ),
+			            TREATAS ( SelectedDT, iqvia_all_04[DataType] )
+			        ),
+			        CALCULATE ( COUNTROWS ( iqvia_all_04 ) )
+			    )
+			RETURN
+			    IF ( RowCountForDT > 0, 1, BLANK() )
+		formatString: 0
+		lineageTag: 6a21885e-5f2f-4a7a-b803-cb270947e066
+
+	measure 'Show Matrix Row for Selected DataType TEST' =
+			
+			VAR RowValue =
+			    CALCULATE (
+			        [IQVIA Value PXM (Explicit DT) TEST],
+			        REMOVEFILTERS ( 'Time Period' )
+			    )
+			RETURN
+			    IF ( NOT ISBLANK ( RowValue ) && RowValue <> 0, 1, BLANK() )
+		formatString: 0
+		lineageTag: a3c4190a-13b0-4b52-9a05-46db57107910
+
+	measure 'Show Category in Matrix for Selected DataType TEST' =
+			
+			
+			VAR IsGrandTotalRow =
+			    NOT ISINSCOPE ( orbis_dimension_01[Category] )
+			
+			VAR Cat =
+			    SELECTEDVALUE ( orbis_dimension_01[Category] )
+			
+			VAR HasExplicitDT =
+			    COUNTROWS ( ALLSELECTED ( 'DataType Slicer'[DataType] ) )
+			        < COUNTROWS ( ALL ( 'DataType Slicer'[DataType] ) )
+			
+			VAR SelectedDT =
+			    VALUES ( 'DataType Slicer'[DataType] )
+			
+			VAR IncludeCA =
+			    NOT HasExplicitDT
+			        || CONTAINS (
+			            SelectedDT,
+			            'DataType Slicer'[DataType], "IQVIA_CONSUMERAISLE"
+			        )
+			
+			VAR IncludeFS =
+			    NOT HasExplicitDT
+			        || CONTAINS (
+			            SelectedDT,
+			            'DataType Slicer'[DataType], "IQVIA_FRONTSHOP"
+			        )
+			
+			VAR IncludeBS =
+			    NOT HasExplicitDT
+			        || CONTAINS (
+			            SelectedDT,
+			            'DataType Slicer'[DataType], "IQVIA_BACKSHOP"
+			        )
+			
+			VAR Allowed =
+			    ( IncludeCA && Cat IN { "COUGH & COLD", "VITAMINS & SUPPLEMENTS" } )
+			        || ( IncludeFS && Cat IN { "COUGH & COLD", "VITAMINS & SUPPLEMENTS" } )
+			        || ( IncludeBS && Cat IN { "COUGH & COLD", "VITAMINS & SUPPLEMENTS", "NASAL DECONGESTANTS", "NERVE CARE" } )
+			
+			RETURN
+			    IF (
+			        IsGrandTotalRow,
+			        1,
+			        IF ( Allowed, 1, BLANK() )
+			    )
+		formatString: 0
+		lineageTag: 46b4223b-de0a-45e0-b995-63234142a58c
+
+	measure 'Value New Card DISPLAY FINAL TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Value New Card - SegPage TEST],
+			    BLANK()
+			)
+		formatString: 0.0
+		lineageTag: 15a37abd-e320-4ffa-935c-cb23ca44e067
+
+	measure 'Value Salience DISPLAY FINAL TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Value Salience new TEST],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 2d13f86f-030c-47bc-99ad-7690664f37e7
+
+	measure 'Value Share DISPLAY FINAL TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Value Share new TEST],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: b80b2fa1-4049-4585-b92c-0730cccb736e
+
+	measure 'Value IYA DISPLAY FINAL TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Value IYA PXM TEST],
+			    BLANK()
+			)
+		formatString: 0.0
+		lineageTag: ce3027e0-7a81-4d46-868e-25c938299e53
+
+	measure 'Value DYA DISPLAY FINAL TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Value Share DYA TEST],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 59edd3f1-c024-4014-be7b-3668634644f7
+
+	measure 'Volume New Card DISPLAY FINAL TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Volume New Card TEST],
+			    BLANK()
+			)
+		formatString: #,0
+		lineageTag: db84e52e-1f89-4ef1-973a-9d29a964ead9
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Volume Salience DISPLAY FINAL TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Volume Salience new TEST],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 8096bbf2-95c6-45be-a46b-7537c996ba42
+
+	measure 'Volume Share DISPLAY FINAL TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Volume Share new TEST],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 39a8eda5-a877-4bad-a3a9-ec918f154115
+
+	measure 'Volume IYA DISPLAY FINAL TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Volume IYA PXM TEST],
+			    BLANK()
+			)
+		formatString: 0.0
+		lineageTag: 7755ef30-9986-4c8a-96f4-dcac8f8ac2c2
+
+	measure 'Volume DYA DISPLAY FINAL TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Volume Share DYA TEST],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: e5a4789e-b358-499d-99c6-9ad06c698af5
+
+	measure 'Volume Share DISPLAY FINAL - SegPage TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Volume Share new - SegPage TEST],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 9c445c86-87ce-4544-95b1-c29605158f6b
+
+	measure 'Volume New Card DISPLAY FINAL - SegPage TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Volume New Card - SegPage TEST],
+			    BLANK()
+			)
+		formatString: #,0
+		lineageTag: 15c0ece8-c0d8-44a1-b815-9fe4af30401b
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Volume IYA DISPLAY FINAL - SegPage TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Volume IYA PXM - SegPage TEST],
+			    BLANK()
+			)
+		formatString: 0.0
+		lineageTag: 2cecdba8-a81c-4a8d-a278-0c1a1224cd38
+
+	measure 'Volume DYA DISPLAY FINAL - SegPage TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Volume Share DYA - SegPage TEST],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: e6a577b5-1656-4695-b033-ef97a00dd1ba
+
+	measure 'Value New Card DISPLAY FINAL - SegPage TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Value New Card - SegPage TEST],
+			    BLANK()
+			)
+		lineageTag: 61538c1f-acc4-463d-93d3-289f7c2105ec
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Value Share DISPLAY FINAL - SegPage TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Value Share new - SegPage TEST],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: f77ec3b0-7774-421e-8c72-83b1f913ed2d
+
+	measure 'Value IYA DISPLAY FINAL - SegPage TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Value IYA PXM - SegPage TEST],
+			    BLANK()
+			)
+		formatString: 0.0
+		lineageTag: 798bbcc9-269a-4190-a59a-5a28944e1cac
+
+	measure 'Value DYA DISPLAY FINAL - SegPage TEST' =
+			
+			IF (
+			    [Show Category in Matrix for Selected DataType TEST] = 1,
+			    [Value Share DYA - SegPage TEST],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 446827ea-5fb7-4e6a-a6f3-eaba3a2eac89
+
+	measure 'Shipments Display' =
+			
+			IF (
+			    SELECTEDVALUE ( 'IYA Toggle'[Show IYA], "IYA off" ) = "IYA on",
+			    [Shipments IYA],
+			    [Shipments]
+			)
+		lineageTag: 3208db54-3a75-4129-9628-cce73bd25f27
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Shipments by Brand Title' =
+			
+			VAR Metric =
+			    SELECTEDVALUE ( 'Shipment Pie Toggle Brand'[Metric], "Value" )
+			RETURN
+			    SWITCH (
+			        Metric,
+			        "Value", "Shipments (in MM) by Brand",
+			        "Volume (MSU)", "Shipments (in MSU) by Brand",
+			        "Shipments (in MM) by Brand"
+			    )
+		lineageTag: 05910563-76f0-4c80-87ab-1747a69fbfcf
+
+	measure 'Shipments by Channel Title' =
+			
+			VAR Metric =
+			    SELECTEDVALUE ( 'Shipment Pie Toggle Channel'[Metric], "Value" )
+			RETURN
+			    SWITCH (
+			        Metric,
+			        "Value", "Shipments (in MM) by Channel",
+			        "Volume (MSU)", "Shipments (in MSU) by Channel",
+			        "Shipments (in MM) by Channel"
+			    )
+		lineageTag: 7fbcc3ec-f163-4dc4-9c71-b6e189a5d0a1
+
+	measure 'POS Sales MSU Page' =
+			
+			CALCULATE (
+			    [POS Sales (in MM or MSU)],
+			    REMOVEFILTERS ( 'Switcher Table'[Value/Volume] ),
+			    TREATAS ( { "Volume (MSU)" }, 'Switcher Table'[Value/Volume] )
+			)
+		lineageTag: 72d7f62d-8f6c-4cd7-a8cb-7e8943c01b36
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'POS Sales by Brand Title' =
+			
+			VAR Metric =
+			    SELECTEDVALUE ( 'POS Pie Toggle Brand'[Metric], "Value" )
+			RETURN
+			    SWITCH (
+			        Metric,
+			        "Value", "POS Sales (in MM) by Brand",
+			        "Volume (MSU)", "POS Sales (in MSU) by Brand",
+			        "POS Sales (in MM) by Brand"
+			    )
+		lineageTag: bf8ba949-2763-45c6-b77f-3d837692bfdc
+
+	measure 'POS Sales by Customer Title' =
+			
+			VAR Metric =
+			    SELECTEDVALUE ( 'POS Pie Toggle Customer'[Metric], "Value" )
+			RETURN
+			    SWITCH (
+			        Metric,
+			        "Value", "POS Sales (in MM) by Customer",
+			        "Volume (MSU)", "POS Sales (in MSU) by Customer",
+			        "POS Sales (in MM) by Customer"
+			    )
+		lineageTag: f8638657-0c1c-4544-beab-ba1cde9d506a
+
+	measure 'POS vs Shipments Value Title' =
+			
+			IF (
+			    SELECTEDVALUE ( 'Shipments Toggle Value'[Show Shipments], "Off" ) = "On",
+			    "POS Sales vs Shipments (in MM)",
+			    "POS Sales (in MM) by Month"
+			)
+		lineageTag: 88da2af2-f3a0-4e51-9f13-b69b6e1a88c2
+
+	measure 'POS vs Shipments Volume Title' =
+			
+			IF (
+			    SELECTEDVALUE ( 'Shipments Toggle Volume'[Show Shipments], "Off" ) = "On",
+			    "POS Sales vs Shipments (in MSU)",
+			    "POS Sales (in MSU) by Month"
+			)
+		lineageTag: 0836953f-f1a2-4558-9d6c-a202b0aaafa6
+
+	measure 'Toggle Status Test' =
+			
+			SELECTEDVALUE ( 'Shipments Toggle Value'[Show Shipments], "Nothing Selected" )
+		lineageTag: c9593e38-46d9-4585-950f-340bcf776216
+
+	measure 'Current Time Period Test' =
+			
+			SELECTEDVALUE ( 'Time Period'[Period], "No Time Period / Multiple" )
+		lineageTag: 36ff84d8-8297-49ae-93a0-2d10b011c62b
+
+	measure 'Shipments Value Base Test' =
+			
+			[Shipments Value Base]
+		lineageTag: 256d2747-2485-4fc1-a626-72a2a5adb2e3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Shipments Visual Value MM Monthly' =
+			
+			DIVIDE ( [Shipment Order GIV], 1000000 )
+		lineageTag: 813346c9-12c6-49a8-9d47-8f694956fb83
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Shipments Visual MSU Monthly' =
+			
+			[Shipment Order MSU]
+		lineageTag: 765557b4-f3f8-42b7-b506-e2dd4214d3d3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Shipments Visual MSU Compare' =
+			
+			CALCULATE (
+			    [Shipment Order MSU],
+			    REMOVEFILTERS ( 'Time Period' ),
+			    REMOVEFILTERS ( orbis_dimension_01 ),
+			
+			    FILTER (
+			        ALL ( shipmenets_data_07[Customer] ),
+			        NOT ISFILTERED ( orbis_dimension_01[customer] )
+			            || shipmenets_data_07[Customer] IN ALLSELECTED ( orbis_dimension_01[customer] )
+			    ),
+			
+			    FILTER (
+			        ALL ( shipmenets_data_07[Brand] ),
+			        NOT ISFILTERED ( orbis_dimension_01[Brand] )
+			            || shipmenets_data_07[Brand] IN ALLSELECTED ( orbis_dimension_01[Brand] )
+			    ),
+			
+			    FILTER (
+			        ALL ( shipmenets_data_07[Segment] ),
+			        NOT ISFILTERED ( orbis_dimension_01[Segment] )
+			            || shipmenets_data_07[Segment] IN ALLSELECTED ( orbis_dimension_01[Segment] )
+			    ),
+			
+			    FILTER (
+			        ALL ( shipmenets_data_07[Product] ),
+			        NOT ISFILTERED ( orbis_dimension_01[Product] )
+			            || shipmenets_data_07[Product] IN ALLSELECTED ( orbis_dimension_01[Product] )
+			    ),
+			
+			    FILTER (
+			        ALL ( shipmenets_data_07[Channel] ),
+			        IF (
+			            ISFILTERED ( orbis_dimension_01[Channel] ),
+			            shipmenets_data_07[Channel] IN ALLSELECTED ( orbis_dimension_01[Channel] ),
+			            shipmenets_data_07[Channel] IN { "DPP", "HSM" }
+			        )
+			    )
+			)
+		lineageTag: 75ae3055-c8ae-47ff-8b45-68a815203e29
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Shipments Visual MSU Compare2' =
+			
+			CALCULATE (
+			    [Shipment Order MSU],
+			    REMOVEFILTERS ( 'Time Period' ),
+			    REMOVEFILTERS ( orbis_dimension_01 ),
+			
+			    FILTER (
+			        ALL ( shipmenets_data_07[Customer] ),
+			        NOT ISFILTERED ( orbis_dimension_01[customer] )
+			            || shipmenets_data_07[Customer] IN ALLSELECTED ( orbis_dimension_01[customer] )
+			    ),
+			
+			    FILTER (
+			        ALL ( shipmenets_data_07[Brand] ),
+			        NOT ISFILTERED ( orbis_dimension_01[Brand] )
+			            || shipmenets_data_07[Brand] IN ALLSELECTED ( orbis_dimension_01[Brand] )
+			    ),
+			
+			    FILTER (
+			        ALL ( shipmenets_data_07[Segment] ),
+			        NOT ISFILTERED ( orbis_dimension_01[Segment] )
+			            || shipmenets_data_07[Segment] IN ALLSELECTED ( orbis_dimension_01[Segment] )
+			    ),
+			
+			    FILTER (
+			        ALL ( shipmenets_data_07[Product] ),
+			        NOT ISFILTERED ( orbis_dimension_01[Product] )
+			            || shipmenets_data_07[Product] IN ALLSELECTED ( orbis_dimension_01[Product] )
+			    ),
+			
+			    FILTER (
+			        ALL ( shipmenets_data_07[Channel] ),
+			        IF (
+			            ISFILTERED ( orbis_dimension_01[Channel] ),
+			            shipmenets_data_07[Channel] IN ALLSELECTED ( orbis_dimension_01[Channel] ),
+			            shipmenets_data_07[Channel] IN { "DPP", "HSM" }
+			        )
+			    )
+			)
+		lineageTag: 86dae1d2-11f7-459a-88c3-e60091b6f792
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Brand
+		lineageTag: 0b199687-d295-4e53-8d81-0c23bc4db394
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: orbis_dimension_01[Brand]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Display Name 2' =
+			
+			SWITCH (
+			    'DataType Slicer'[DataType],
+			    "IQVIA_CONSUMERAISLE", "Consumer Aisle",
+			    "IQVIA_FRONTSHOP", "Frontshop",
+			    "IQVIA_BACKSHOP", "Backshop",
+			    'DataType Slicer'[DataType]
+			)
+		lineageTag: 07368ed8-3722-4528-a577-5727060f6e5e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Brand_Grouped = calculated
+		mode: import
+		source =
+				
+				UNION(
+				VALUES(orbis_dimension_01[Brand]),
+				ROW("Brand", "Others")
+				)
+
+	annotation PBI_Id = 439637ce74e5498c9afcd769c2322906
+

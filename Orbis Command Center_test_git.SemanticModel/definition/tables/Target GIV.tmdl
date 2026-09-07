@@ -1,0 +1,137 @@
+table 'Target GIV'
+	lineageTag: 69475c21-33ae-4e5a-a472-22965d86e4cc
+
+	column Channel
+		dataType: string
+		lineageTag: 3f21ae85-36e8-4753-a7eb-e320d46a0e73
+		summarizeBy: none
+		sourceColumn: Channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sub-Channel
+		dataType: string
+		lineageTag: cc3d1366-b290-4643-b9af-b5a76b887154
+		summarizeBy: none
+		sourceColumn: Sub-Channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer
+		dataType: string
+		lineageTag: 31f44d41-1a27-44f5-88ff-785b9f1bf426
+		summarizeBy: none
+		sourceColumn: Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Base / PHC'
+		dataType: string
+		lineageTag: 19c51cb6-bf85-4b49-b8e9-283b61f749b5
+		summarizeBy: none
+		sourceColumn: Base / PHC
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: b36c9504-9b00-4e34-8e4d-af002ba18975
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Brand Form'
+		dataType: string
+		lineageTag: 2d5c83ca-811e-4108-8158-9f4a6fa9b577
+		summarizeBy: none
+		sourceColumn: Brand Form
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: e478c2dc-8950-40da-94c1-a8bfe96b94e7
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Value
+		dataType: double
+		lineageTag: a85b203a-ca27-4be2-a015-0a72282f9708
+		summarizeBy: sum
+		sourceColumn: Value
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Customer New'
+		dataType: string
+		lineageTag: 32c6a037-614d-4ad8-a88f-fdf20d51c90f
+		summarizeBy: none
+		sourceColumn: Customer New
+
+		annotation SummarizationSetBy = Automatic
+
+	column Key
+		dataType: string
+		lineageTag: bdbd6e02-971a-48fa-a4ba-610d64ccdad5
+		summarizeBy: none
+		sourceColumn: Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonthKey = INT(FORMAT('Target GIV'[Date], "YYYYMM"))
+		formatString: 0
+		lineageTag: 4989226f-6b74-40b9-b45c-7b3c8128de9d
+		summarizeBy: count
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Target GIV' = m
+		mode: import
+		source =
+				let
+				    Source = SharePoint.Files("https://pgone.sharepoint.com/sites/AMAPHCIT/", [ApiVersion = 15]),
+				    #"Filtered Rows" = Table.SelectRows(Source, each ([Extension] = ".xlsx")),
+				    #"Filtered Rows1" = Table.SelectRows(#"Filtered Rows", each Text.Contains([Folder Path], "https://pgone.sharepoint.com/sites/AMAPHCIT/Shared Documents/Project ORBIS/")),
+				    #"ZA SMO Sufficiency File xlsx_https://pgone sharepoint com/sites/AMAPHCIT/Shared Documents/Project ORBIS/Data/" = #"Filtered Rows1"{[Name="ZA SMO Sufficiency File.xlsx",#"Folder Path"="https://pgone.sharepoint.com/sites/AMAPHCIT/Shared Documents/Project ORBIS/Data/"]}[Content],
+				    #"Imported Excel Workbook" = Excel.Workbook(#"ZA SMO Sufficiency File xlsx_https://pgone sharepoint com/sites/AMAPHCIT/Shared Documents/Project ORBIS/Data/"),
+				    #"GIV  W Sub Totals_Sheet" = #"Imported Excel Workbook"{[Item="GIV  W Sub Totals",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(#"GIV  W Sub Totals_Sheet", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ZA SMO GIV (RMM)", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}, {"Column6", type text}, {"Column7", type any}, {"Column8", type any}, {"Actuals YA", type text}, {"Actuals YA_1", type any}, {"Actuals YA_2", type any}, {"Actuals YA_3", type any}, {"Actuals YA_4", type any}, {"Actuals YA_5", type any}, {"Actuals YA_6", type any}, {"Actuals YA_7", type any}, {"Actuals YA_8", type any}, {"Actuals YA_9", type any}, {"Actuals YA_10", type any}, {"Actuals YA_11", type any}, {"Actuals YA_12", type any}, {"Actuals YA_13", type any}, {"Actuals YA_14", type any}, {"Actuals YA_15", type any}, {"Target Index", type text}, {"Target Index_16", type any}, {"Target Index_17", type any}, {"Target Index_18", type any}, {"Target Index_19", type any}, {"Target Index_20", type any}, {"Target Index_21", type any}, {"Target Index_22", type any}, {"Target Index_23", type any}, {"Target Index_24", type any}, {"Target Index_25", type any}, {"Target Index_26", type any}, {"Target Index_27", type any}, {"Target", type text}, {"Target_28", type any}, {"Target_29", type any}, {"Target_30", type any}, {"Target_31", type any}, {"Target_32", type any}, {"Target_33", type any}, {"Target_34", type any}, {"Target_35", type any}, {"Target_36", type any}, {"Target_37", type any}, {"Target_38", type any}, {"Target_39", type any}, {"Target_40", type any}, {"Target_41", type any}, {"Target_42", type any}, {"Target_43", type any}, {"R&O's", type text}, {"R&O's_44", type any}, {"R&O's_45", type any}, {"R&O's_46", type any}, {"R&O's_47", type any}, {"R&O's_48", type any}, {"R&O's_49", type any}, {"R&O's_50", type any}, {"R&O's_51", type any}, {"R&O's_52", type any}, {"R&O's_53", type any}, {"R&O's_54", type any}, {"R&O's_55", type any}, {"R&O's_56", type any}, {"R&O's_57", type any}, {"R&O's_58", type any}, {"LBE", type text}, {"LBE_59", type any}, {"LBE_60", type any}, {"LBE_61", type any}, {"LBE_62", type any}, {"LBE_63", type any}, {"LBE_64", type any}, {"LBE_65", type any}, {"LBE_66", type any}, {"LBE_67", type any}, {"LBE_68", type any}, {"LBE_69", type any}, {"LBE_70", type any}, {"LBE_71", type any}, {"LBE_72", type any}, {"LBE_73", type any}, {"LBE IYA", type text}, {"LBE IYA_74", type any}, {"LBE IYA_75", type any}, {"LBE IYA_76", type any}, {"LBE IYA_77", type any}, {"LBE IYA_78", type any}, {"LBE IYA_79", type any}, {"LBE IYA_80", type any}, {"LBE IYA_81", type any}, {"LBE IYA_82", type any}, {"LBE IYA_83", type any}, {"LBE IYA_84", type any}, {"LBE IYA_85", type any}, {"LBE IYA_86", type any}, {"LBE IYA_87", type any}, {"LBE IYA_88", type any}, {"LBE IYA_89", type any}, {"LBE IYA_90", type any}, {"LBE IYA_91", type any}}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Changed Type",{"ZA SMO GIV (RMM)", "Column2", "Column3", "Column4", "Column5", "Column6", "Target", "Target_28", "Target_29", "Target_30", "Target_31", "Target_32", "Target_33", "Target_34", "Target_35", "Target_36", "Target_37", "Target_38", "Target_39"}),
+				    #"Promoted Headers1" = Table.PromoteHeaders(#"Removed Other Columns1", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers1",{{"Channel", type text}, {"Sub-Channel", type text}, {"Customer", type text}, {"Base / PHC", type text}, {"SMO Category", type text}, {"Brand Form", type text}, {"Target", type text}}),
+				    #"Filtered Rows2" = Table.SelectRows(#"Changed Type1", each ([#"Base / PHC"] = "PHC") and ([SMO Category] <> "Oral Care" and [SMO Category] <> "Vitamins & Supplements")),
+				    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows2","Rapid Diagnostics","ClearBlue",Replacer.ReplaceText,{"SMO Category"}),
+				    #"Filtered Rows3" = Table.SelectRows(#"Replaced Value", each ([Customer] <> "All Customers")),
+				    #"Renamed Columns" = Table.RenameColumns(#"Filtered Rows3",{{"SMO Category", "Brand"}}),
+				    #"Unpivoted Other Columns" = Table.UnpivotOtherColumns(#"Renamed Columns", {"Channel", "Sub-Channel", "Customer", "Base / PHC", "Brand", "Brand Form", "Target"}, "Attribute", "Value"),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Unpivoted Other Columns",{{"Attribute", "Date"}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns1",{"Target"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Removed Columns",{{"Value", "Value"}}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Renamed Columns2",{{"Date", type date}}),
+				    #"Uppercased Text" = Table.TransformColumns(#"Changed Type2",{{"Customer", Text.Upper, type text}, {"Brand", Text.Upper, type text}}),
+				    #"Trimmed Text" = Table.TransformColumns(#"Uppercased Text",{{"Customer", Text.Trim, type text}, {"Brand", Text.Trim, type text}}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Trimmed Text", "Customer New", each if [Customer] = "ADVANCE WAREHOUSING" then "ADVANCE C&C" else if [Customer] = "APTEKOR WHOLESALER" then "APTEKOR" else if [Customer] = "ARRIE NEL GROEP" then "ARRIE NEL" else if [Customer] = "BIG SAVE DISTRIBUTION CENTRE" then "BIG SAVE" else if [Customer] = "CURASANA WHOLESALERS" then "CURASANA" else if [Customer] = "DIS-CHEM" then "DISCHEM" else if [Customer] = "HELDERBERG MEDICAL" then "HELDERBERG" else if [Customer] = "INDO" then "INDO-NAMIBIA" else if [Customer] = "KHARWASTAN PHARMA AND ALLIED WHOLESALERS" then "KHARWASTAN" else if [Customer] = "LIMPOPO C&C" then "LIMPOPO CC" else if [Customer] = "LLANDT EXPORTS" then "LLANDT" else if [Customer] = "MALAN AND BUYS" then "MALAN & BUYS" else if [Customer] = "OSIRIS HEALTHCARE" then "OSIRIS" else if [Customer] = "PHARMED PHARMACEUTICALS" then "PHARMED" else if [Customer] = "ROYAL SMART TRADING" then "ROYAL SMART" else if [Customer] = "SAMY'S WHOLESALE" then "SAMYS WHOLESALE" else if [Customer] = "SUPERB WHOLESALERS" then "SUPERB HYPER" else if [Customer] = "TOPMED HEALTH CARE DISTRIBUTOR" then "TOPMED" else if [Customer] = "UNITRADE MANAGEMENT SERVICES" then "UNITRADE" else [Customer]),
+				    Key = Table.AddColumn(#"Added Conditional Column", "Key", each Text.Combine({
+				            Text.From([Customer New]),
+				            Text.From([Brand])
+				        }, "")),
+				    #"Appended Query" = Table.Combine({Key, #"Target GIV FY2526"}),
+				    #"Filtered Rows5" = Table.SelectRows(#"Appended Query", each Date.IsInPreviousNMonths([Date], 36) or Date.IsInCurrentMonth([Date]))
+				in
+				    #"Filtered Rows5"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

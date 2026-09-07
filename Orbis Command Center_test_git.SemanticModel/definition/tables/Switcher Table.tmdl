@@ -1,0 +1,23 @@
+table 'Switcher Table'
+	lineageTag: 894ebb35-e36d-4bef-95f4-fc582764c25e
+
+	column Value/Volume
+		dataType: string
+		lineageTag: 68f043b4-f489-4cb3-bfc8-aefa591c70df
+		summarizeBy: none
+		sourceColumn: Value/Volume
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Switcher Table' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WCkvMKU1VitUBsvJzSnNTFTR8g0M1UQRC8zJLioFCsQA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Value/Volume" = _t])
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Orbis Command Center_test_git"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "4cc2030b-faea-4c1c-bc44-d60f7fe01b70"
+  }
+}

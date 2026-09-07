@@ -1,0 +1,7 @@
+role Clicks
+	modelPermission: read
+
+	tablePermission pos_data_03
+
+	annotation PBI_Id = 96b9d58818ef4aeeaa28a5dd24c7b17b
+

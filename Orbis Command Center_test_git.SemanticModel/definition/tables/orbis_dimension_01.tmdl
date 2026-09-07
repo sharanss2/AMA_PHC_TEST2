@@ -1,0 +1,168 @@
+table orbis_dimension_01
+	lineageTag: 6a86848d-b915-42ba-8143-7638c811e141
+
+	column DataType
+		dataType: string
+		lineageTag: bae79a28-4976-479f-a4e6-2020ed3fba94
+		summarizeBy: none
+		sourceColumn: DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer
+		dataType: string
+		lineageTag: 48427c69-7a51-418d-b6c5-f5961b9bbd6b
+		summarizeBy: none
+		sourceColumn: customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: 5e36dddb-93ff-43ce-937d-2df686a2ab2f
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: b904c360-f408-4fdf-aa36-e7bf30cbc016
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column Item_gtin
+		dataType: string
+		lineageTag: a7082f11-8fec-435f-bbed-360b8ac4a62d
+		summarizeBy: none
+		sourceColumn: Item_gtin
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: 077dfc08-2387-446c-ac6e-c5febc537519
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: 81260906-7db2-4b48-9bca-d11cd9350263
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column Channel
+		dataType: string
+		lineageTag: a00861c0-de00-4c2c-ab54-2d76e8930cd7
+		summarizeBy: none
+		sourceColumn: Channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column Key
+		dataType: string
+		lineageTag: dc734a72-38e0-4f8f-927b-a9e944e804d6
+		summarizeBy: none
+		sourceColumn: Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'P&G Flag' = IF(orbis_dimension_01[Brand] in {"Vicks", "Slow-Mag", "Neurobion", "Iliadin"}, 1, 0)
+		formatString: 0
+		lineageTag: 70ce7636-9035-416c-96b8-46c96b85b72f
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column TargetKey
+		dataType: string
+		lineageTag: 70c32052-68b7-4c5c-b699-56b9e43945b2
+		summarizeBy: none
+		sourceColumn: TargetKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column RxOtc
+		dataType: string
+		lineageTag: 2dcca3fe-8e2a-4256-a95e-7012c5b4a407
+		summarizeBy: none
+		sourceColumn: RxOtc
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Consumption Indicator' =
+			SWITCH(TRUE(),
+			orbis_dimension_01[customer] in VALUES(pos_data_03[Customer]), "Consumption", "Non-consumption")
+		lineageTag: 81c35c7a-304c-4f14-b165-62850468ba9a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'DataType New' = SWITCH(orbis_dimension_01[DataType], "IQVIA_FRONTSHOP", "Frontshop", "IQVIA_BACKSHOP", "Backshop", "IQVIA_CONSUMERAISLE", "Consumer Aisle")
+		lineageTag: 9f2ab7b4-93c6-4acb-9eca-b60b29ae4e34
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PG Category' =
+			
+			IF(orbis_dimension_01[P&G Flag] = 1, "P&G - " & orbis_dimension_01[category], "Competition - " & orbis_dimension_01[category])
+			// "P&G - " & orbis_dimension_01[category]
+		lineageTag: e709b75f-bde3-48aa-9aac-3d13a4f6d806
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition orbis_dimension_01 = m
+		mode: import
+		source = ```
+				// let
+				//     Source = Value.NativeQuery(Databricks.Catalogs("adb-6342212884588594.14.azuredatabricks.net", "sql/protocolv1/o/6342212884588594/0109-132425-h4e9ctti", [Catalog="dap_hc_01_dev", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", MetricViewBiCompatibilityMode=null]){[Name="dap_hc_01_dev",Kind="Database"]}[Data], "select * from dap_hc_01_dev.gold_orbis.orbis_dimension_01", null, [EnableFolding=true]),
+				//     #"Replaced Value" = Table.ReplaceValue(Source,"Not available for Backshop IQVIA","NA",Replacer.ReplaceText,{"Channel"}),
+				//     #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","Not available for Cosumer Aisle IQVIA","NA",Replacer.ReplaceText,{"Channel"}),
+				//     #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","Not available for FrontShop IQVIA","NA",Replacer.ReplaceText,{"Channel"}),
+				//     #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","Item GTINs are not available for Backshop IQVIA","0",Replacer.ReplaceText,{"Item_gtin"})
+				// in
+				//     #"Replaced Value3"
+				
+				let
+				    Source = Value.NativeQuery(Databricks.Catalogs("adb-6342212884588594.14.azuredatabricks.net", "/sql/1.0/warehouses/963202ff1d6a9955", [Catalog="dap_hc_01_dev", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", MetricViewBiCompatibilityMode=null]){[Name="dap_hc_01_dev",Kind="Database"]}[Data], "select * from dap_hc_01_dev.gold_orbis.orbis_dim_02", null, [EnableFolding=true]),
+				    #"Replaced Value" = Table.ReplaceValue(Source,"Not available for Backshop IQVIA","NA",Replacer.ReplaceText,{"Channel"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","Not available for Cosumer Aisle IQVIA","NA",Replacer.ReplaceText,{"Channel"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","Not available for FrontShop IQVIA","NA",Replacer.ReplaceText,{"Channel"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","Item GTINs are not available for Backshop IQVIA","0",Replacer.ReplaceText,{"Item_gtin"}),
+				    #"Uppercased Text" = Table.TransformColumns(#"Replaced Value3",{{"DataType", Text.Upper, type text}, {"customer", Text.Upper, type text}, {"category", Text.Upper, type text}, {"Brand", Text.Upper, type text}, {"Item_gtin", Text.Upper, type text}, {"Product", Text.Upper, type text}, {"Segment", Text.Upper, type text}, {"Channel", Text.Upper, type text}}),
+				    #"Trimmed Text" = Table.TransformColumns(#"Uppercased Text",{{"DataType", Text.Trim, type text}, {"customer", Text.Trim, type text}, {"category", Text.Trim, type text}, {"Brand", Text.Trim, type text}, {"Item_gtin", Text.Trim, type text}, {"Product", Text.Trim, type text}, {"Segment", Text.Trim, type text}, {"Channel", Text.Trim, type text}}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Trimmed Text","NOT APPLICABLE","NA",Replacer.ReplaceText,{"Channel"}),
+				    
+				    // Adding the Unique Key
+				    #"Added Key" = Table.AddColumn(#"Replaced Value4", "Key", each 
+				        Text.Combine({
+				            Text.From([DataType]), 
+				            Text.From([Channel]), 
+				            Text.From([customer]), 
+				            Text.From([category]), 
+				            Text.From([Segment]), 
+				            Text.From([Brand]), 
+				            Text.From([Product])
+				        }, ""), type text),
+				    #"Removed Duplicates" = Table.Distinct(#"Added Key", {"Key"}),
+				    Custom1 = Table.AddColumn(#"Removed Duplicates", "TargetKey", each Text.Combine({
+				            Text.From([customer]),
+				            Text.From([Brand])
+				        }, "")),
+				    #"Replaced Value5" = Table.ReplaceValue(Custom1,"INHALER","INHALERS",Replacer.ReplaceValue,{"Segment"})
+				in
+				    #"Replaced Value5"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

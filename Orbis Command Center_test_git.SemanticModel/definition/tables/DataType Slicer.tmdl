@@ -1,0 +1,40 @@
+table 'DataType Slicer'
+	lineageTag: 3111c53f-23c3-4937-b6cd-8ac9b7099353
+
+	column DataType
+		lineageTag: 438042af-b534-4726-8cbd-ecf5cafb114d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [DataType]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Display Name' =
+			
+			SWITCH (
+			    TRUE(),
+			    'DataType Slicer'[DataType] = "IQVIA_CONSUMERAISLE", "Consumer Aisle",
+			    'DataType Slicer'[DataType] = "IQVIA_FRONTSHOP", "Frontshop",
+			    'DataType Slicer'[DataType] = "IQVIA_BACKSHOP", "Backshop",
+			    'DataType Slicer'[DataType]
+			)
+		lineageTag: 83a30f02-50c6-45d2-af06-9fd3a1e60fd5
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DataType Slicer' = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "DataType", STRING,
+				    {
+				        { "IQVIA_CONSUMERAISLE" },
+				        { "IQVIA_FRONTSHOP" },
+				        { "IQVIA_BACKSHOP" }
+				    }
+				)
+
+	annotation PBI_Id = 0543ac1f431f4360817037245b41f833
+

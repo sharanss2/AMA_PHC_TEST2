@@ -1,0 +1,303 @@
+table 'Time Period'
+	lineageTag: 3c7c03c0-4ced-4e91-bb00-f70251e6e098
+
+	measure 'IQVIA Category Total Value PXM - SegPage TEST' =
+			
+			CALCULATE (
+			    [IQVIA Value PXM (Explicit DT) TEST],
+			    REMOVEFILTERS (
+			        orbis_dimension_01[Segment],
+			        orbis_dimension_01[Brand],
+			        orbis_dimension_01[Product]
+			    )
+			)
+		lineageTag: 0920287d-a9d7-41c3-be9f-f9978ea877a9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'IQVIA Category Total Volume PXM - SegPage TEST' =
+			
+			CALCULATE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    REMOVEFILTERS (
+			        orbis_dimension_01[Segment],
+			        orbis_dimension_01[Brand],
+			        orbis_dimension_01[Product]
+			    )
+			)
+		lineageTag: 53f9c008-a0ce-4eb7-bb77-726f03890275
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'IQVIA Segment Total Value PXM - SegPage TEST' =
+			
+			CALCULATE (
+			    [IQVIA Value PXM (Explicit DT) TEST],
+			    REMOVEFILTERS (
+			        orbis_dimension_01[Brand],
+			        orbis_dimension_01[Product]
+			    )
+			)
+		lineageTag: 4ac51643-8ee8-4ea1-8f92-5b467336d89a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'IQVIA Segment Total Volume PXM - SegPage TEST' =
+			
+			CALCULATE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    REMOVEFILTERS (
+			        orbis_dimension_01[Brand],
+			        orbis_dimension_01[Product]
+			    )
+			)
+		lineageTag: 1bde00c4-994c-4ca5-a10e-7782e26d0b22
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Segment Value Share - SegPage TEST' =
+			
+			DIVIDE (
+			    [IQVIA Value PXM (Explicit DT) TEST],
+			    [IQVIA Category Total Value PXM - SegPage TEST],
+			    BLANK ()
+			)
+		lineageTag: 8eff743e-942d-4e3b-9809-c37adddbb678
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Brand Value Share - SegPage TEST' =
+			
+			DIVIDE (
+			    [IQVIA Value PXM (Explicit DT) TEST],
+			    [IQVIA Segment Total Value PXM - SegPage TEST],
+			    BLANK ()
+			)
+		lineageTag: c0aa5bc3-1cc4-4bd6-b253-a16ca966d9e3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SKU Value Share - SegPage TEST' =
+			
+			DIVIDE (
+			    [IQVIA Value PXM (Explicit DT) TEST],
+			    [IQVIA Segment Total Value PXM - SegPage TEST],
+			    BLANK ()
+			)
+		lineageTag: edf7b864-375b-4913-8f18-2a826fcaaeaf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Segment Volume Share - SegPage TEST' =
+			
+			DIVIDE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    [IQVIA Category Total Volume PXM - SegPage TEST],
+			    BLANK ()
+			)
+		lineageTag: 24dd9455-02a1-4bf3-a6f6-8170fe3941b5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Brand Volume Share - SegPage TEST' =
+			
+			DIVIDE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    [IQVIA Segment Total Volume PXM - SegPage TEST],
+			    BLANK ()
+			)
+		lineageTag: 0f64de8e-1b3b-401b-83bd-b3f28089226e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SKU Volume Share - SegPage TEST' =
+			
+			DIVIDE (
+			    [IQVIA Volume PXM (Explicit DT) TEST],
+			    [IQVIA Segment Total Volume PXM - SegPage TEST],
+			    BLANK ()
+			)
+		lineageTag: f85059a9-afc8-4176-b0d1-ac84509c55e9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Value Share new - SegPage TEST' =
+			
+			SWITCH (
+			    TRUE (),
+			    ISINSCOPE ( orbis_dimension_01[Product] ), [SKU Value Share - SegPage TEST],
+			    ISINSCOPE ( orbis_dimension_01[Brand] ), [Brand Value Share - SegPage TEST],
+			    ISINSCOPE ( orbis_dimension_01[Segment] ), [Segment Value Share - SegPage TEST],
+			    ISINSCOPE ( orbis_dimension_01[Category] ), 1,
+			    1
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 9d63ec60-3971-4ad3-981b-ebc34ab6b0af
+
+	measure 'Volume Share new - SegPage TEST' =
+			
+			SWITCH (
+			    TRUE (),
+			    ISINSCOPE ( orbis_dimension_01[Product] ), [SKU Volume Share - SegPage TEST],
+			    ISINSCOPE ( orbis_dimension_01[Brand] ), [Brand Volume Share - SegPage TEST],
+			    ISINSCOPE ( orbis_dimension_01[Segment] ), [Segment Volume Share - SegPage TEST],
+			    ISINSCOPE ( orbis_dimension_01[Category] ), 1,
+			    1
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: c496c17b-e3f5-440c-a599-6374a6974801
+
+	measure 'Value New Card - SegPage TEST' =
+			
+			DIVIDE ( [IQVIA Value PXM (Explicit DT) TEST], 1000000 )
+		lineageTag: a1ce7aed-b17a-4495-bb15-23a4f103e944
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Value IYA PXM - SegPage TEST' =
+			
+			IF (
+			    [IYA Visibility Filter IQVIA] = 0,
+			    BLANK(),
+			    DIVIDE (
+			        [IQVIA Value PXM (Explicit DT) TEST],
+			        [IQVIA Value PXM LY (Explicit DT) TEST],
+			        BLANK()
+			    ) * 100
+			)
+		formatString: 0.0
+		lineageTag: b4ca4a90-99c9-40b5-bfcb-83c14fe53415
+
+	measure 'Value Share LY - SegPage TEST' =
+			
+			CALCULATE (
+			    [Value Share new - SegPage TEST],
+			    DATEADD ( DateTable[Date], -1, YEAR )
+			)
+		lineageTag: f4df0d45-62b2-431e-902e-04243b993b3b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Value Share DYA - SegPage TEST' =
+			
+			[Value Share new - SegPage TEST] - [Value Share LY - SegPage TEST]
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: b24c0c4c-62df-492f-b3e7-6d2e474d0fd5
+
+	measure 'Volume New Card - SegPage TEST' =
+			
+			[IQVIA Volume PXM (Explicit DT) TEST]
+		formatString: #,0
+		lineageTag: 309a3595-1a92-4d1e-887a-d78058f653db
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Volume IYA PXM - SegPage TEST' =
+			
+			IF (
+			    [IYA Visibility Filter IQVIA] = 0,
+			    BLANK(),
+			    DIVIDE (
+			        [IQVIA Volume PXM (Explicit DT) TEST],
+			        [IQVIA Volume PXM LY (Explicit DT) TEST],
+			        BLANK()
+			    ) * 100
+			)
+		formatString: 0.0
+		lineageTag: b50b8b69-e305-412a-a76d-c26cdc226ed4
+
+	measure 'Volume Share LY - SegPage TEST' =
+			
+			CALCULATE (
+			    [Volume Share new - SegPage TEST],
+			    DATEADD ( DateTable[Date], -1, YEAR )
+			)
+		lineageTag: 5b3cebc0-aef3-4ba9-b86c-c7dac46eff3f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Share DYA - SegPage TEST' =
+			
+			[Volume Share new - SegPage TEST] - [Volume Share LY - SegPage TEST]
+		lineageTag: 35484a6c-033c-4851-8d2e-5fe15496a346
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Metric New Card - SegPage TEST' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( 'Switcher Table'[Value/Volume] ),
+			    "Value", [Value New Card - SegPage TEST],
+			    "Volume", [Volume New Card - SegPage TEST],
+			    [Value New Card - SegPage TEST]
+			)
+		lineageTag: 85d6963a-7e98-4954-ab6b-2c72c662d50a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Metric Share - SegPage TEST' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( 'Switcher Table'[Value/Volume] ),
+			    "Value", [Value Share new - SegPage TEST],
+			    "Volume", [Volume Share new - SegPage TEST],
+			    [Value Share new - SegPage TEST]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: b49b381a-198e-4144-9d3c-8875f86e15dc
+
+	measure 'Metric IYA - SegPage TEST' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( 'Switcher Table'[Value/Volume] ),
+			    "Value", [Value IYA PXM - SegPage TEST],
+			    "Volume", [Volume IYA PXM - SegPage TEST],
+			    [Value IYA PXM - SegPage TEST]
+			)
+		formatString: 0.0
+		lineageTag: 30b6b1f1-90c1-463e-8214-be03ee9c7223
+
+	measure 'Metric DYA - SegPage TEST' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( 'Switcher Table'[Value/Volume] ),
+			    "Value", [Value Share DYA - SegPage TEST],
+			    "Volume", [Volume Share DYA - SegPage TEST],
+			    [Value Share DYA - SegPage TEST]
+			)
+		formatString: 0.0
+		lineageTag: 3dc8c048-717f-4cfe-919f-a6924abe29a3
+
+	column Period
+		dataType: string
+		lineageTag: e5fb982b-2755-4a7e-869d-61695a1e203a
+		summarizeBy: none
+		sourceColumn: Period
+		sortByColumn: Rank
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Rank
+		dataType: int64
+		formatString: 0
+		lineageTag: 66c0f65d-a518-464a-9ccb-312e889a90f2
+		summarizeBy: sum
+		sourceColumn: Rank
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Time Period' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45Wci4tKkrNK1Hwzc8ryVDSUTJQitWJVgow9AWyDSFsYxDbGMI2A7HNoGqMwIqMwDy3yBAXEA+iLhDCMQFzfCEcU6XYWAA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Period = _t, Rank = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Period", type text}, {"Rank", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmarksMetadata/1.0.0/schema.json",
+  "items": [
+    {
+      "name": "8356936d51a998105b20"
+    },
+    {
+      "name": "669fba578d20a369d115"
+    },
+    {
+      "name": "2b6cad2cdc7b73255843",
+      "displayName": "Group 1",
+      "children": [
+        "ddb4351852e1314221a9",
+        "a4a4a374c7d045e78dec"
+      ]
+    },
+    {
+      "name": "2da9f3f5d340755518c7",
+      "displayName": "Group 2",
+      "children": [
+        "bd72bb035e6411e91ae9",
+        "f7fc8768800d32b0a670"
+      ]
+    },
+    {
+      "name": "75ff2dae28add360aedb",
+      "displayName": "Group 3",
+      "children": [
+        "2e75504bb67c06c46c95",
+        "0398b8b70c0d4a311b03"
+      ]
+    },
+    {
+      "name": "a4956c321ea7203b3b6b",
+      "displayName": "Group 4",
+      "children": [
+        "401fbbbed65b3ac0c827",
+        "5b1cf5d1994d70cdc09e"
+      ]
+    },
+    {
+      "name": "37236707002aa8544849",
+      "displayName": "Group 5",
+      "children": [
+        "b00f3a5bb631ba57e539",
+        "d2670186a2309c2ea5be"
+      ]
+    },
+    {
+      "name": "1ec38f0a619586e21706",
+      "displayName": "Group 6",
+      "children": [
+        "a8acbf856550bae5a29b",
+        "b0626738933832443d47"
+      ]
+    },
+    {
+      "name": "fd122980ddb424017dd8",
+      "displayName": "Customer/Brand",
+      "children": [
+        "628eb6523ae8c976360b",
+        "6781819d97256c49f9ae"
+      ]
+    },
+    {
+      "name": "acc06645ba1b06deeacc",
+      "displayName": "Customer/Brand Shipment",
+      "children": [
+        "dfdbbb7a6bdca4ec28b4",
+        "ea93d87b0b82b9f941f0"
+      ]
+    }
+  ]
+}

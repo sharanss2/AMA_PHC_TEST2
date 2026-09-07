@@ -1,0 +1,87 @@
+relationship 762c3a6e-3948-44e2-8869-ccf438262bf2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: shipmenets_data_07.Order_Date
+	toColumn: LocalDateTable_20a9b933-65c4-4cfe-88c1-98be2e2c82cf.Date
+
+relationship bf4215b6-c6ea-4fb7-94a2-c9c6ced66b75
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Current date/time'.'Current Date/Time'
+	toColumn: LocalDateTable_ef7757e0-7927-416b-9927-4c71c1ac0696.Date
+
+relationship c356b225-66f6-4b25-a9d8-d26683536b79
+	joinOnDateBehavior: datePartOnly
+	fromColumn: pos_data_03.period_end_date
+	toColumn: LocalDateTable_aa7408cb-0c15-4310-9f42-cd0d7ba0694f.Date
+
+relationship 856b4103-5771-77eb-2c48-60c4b38678d9
+	fromColumn: shipmenets_data_07.Key
+	toColumn: orbis_dimension_01.Key
+
+relationship ce3a1aff-6032-3b50-8340-54bc9b749772
+	fromColumn: pos_data_03.Key
+	toColumn: orbis_dimension_01.Key
+
+relationship 809d5eab-3e5b-20e8-649b-d0917ace8c63
+	fromColumn: rtdx_data_02.Key
+	toColumn: orbis_dimension_01.Key
+
+relationship f9a78c73-a0dc-e004-5de0-2947f9aff4ce
+	fromColumn: rtdx_data_02.time_period_end_date
+	toColumn: DateTable.Date
+
+relationship 3c0f6d35-e118-250c-6c85-db71f5b77dba
+	fromColumn: shipmenets_data_07.GI_Date
+	toColumn: DateTable.Date
+
+relationship 63639122-72db-6232-150d-26fcbf80b813
+	fromColumn: 'Target Vol'.Date
+	toColumn: DateTable.Date
+
+relationship 223e05ea-162c-4bf5-3968-7c3f3dba4e27
+	fromColumn: 'Target GIV'.Date
+	toColumn: DateTable.Date
+
+relationship 38ea67c0-4af7-1e6c-b9d4-e5b4c90d705f
+	fromColumn: pos_data_03.Latest_date
+	toColumn: DateTable.Date
+
+relationship de48af2a-8865-41c2-b550-829eb41fab15
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Slicer Month Year'.Date
+	toColumn: LocalDateTable_977c11e3-09a2-4133-b5e8-560897410eb5.Date
+
+relationship 1efc845b-8586-2165-8780-a1c3e023ad59
+	isActive: false
+	fromColumn: shipmenets_data_07.Requested_Delivery_Date
+	toColumn: DateTable.Date
+
+relationship 491a2786-a123-2daa-b843-045bd01df780
+	isActive: false
+	fromColumn: DateTable.Date
+	toColumn: 'Slicer Month Year'.Date
+
+relationship 1f269ed0-f99e-c6d0-2e0d-5f4fe58e7804
+	fromColumn: 'Target GIV'.Key
+	toColumn: target_key_master.Key
+
+relationship 38510fc8-9ff1-af04-4386-c3e8270344d9
+	fromColumn: 'Target Vol'.Key
+	toColumn: target_key_master.Key
+
+relationship 90ad6f48-146f-e3f4-8e66-0d20351d1505
+	crossFilteringBehavior: bothDirections
+	fromColumn: orbis_dimension_01.TargetKey
+	toColumn: target_key_master.Key
+
+relationship 3bb24a71-e796-dc78-5519-0316ec307576
+	fromColumn: iqvia_all_04.Key
+	toColumn: orbis_dimension_01.Key
+
+relationship a8657cc3-a2c7-e3c5-e877-d191e276a7db
+	fromColumn: iqvia_all_04.period_end_date
+	toColumn: DateTable.Date
+
+relationship bbfa8b2c-f5df-45b5-e196-aff09bd488a4
+	fromColumn: pos_daily.period_end_date
+	toColumn: DateTable.Date
+

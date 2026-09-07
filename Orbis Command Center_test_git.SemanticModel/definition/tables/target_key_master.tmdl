@@ -1,0 +1,53 @@
+table target_key_master
+	lineageTag: 12215f25-0a01-4954-a391-39d03862aed1
+
+	column Key
+		dataType: string
+		lineageTag: d2ddbafe-6e68-420f-8b61-3cfbaad0527d
+		summarizeBy: none
+		sourceColumn: Key
+
+		annotation SummarizationSetBy = Automatic
+
+	partition target_key_master = m
+		mode: import
+		source = ```
+				let
+				    Source = Value.NativeQuery(Databricks.Catalogs("adb-6342212884588594.14.azuredatabricks.net", "/sql/1.0/warehouses/963202ff1d6a9955", [Catalog="dap_hc_01_dev", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", MetricViewBiCompatibilityMode=null]){[Name="dap_hc_01_dev",Kind="Database"]}[Data], "select * from dap_hc_01_dev.gold_orbis.orbis_dim_02", null, [EnableFolding=true]),
+				    #"Replaced Value" = Table.ReplaceValue(Source,"Not available for Backshop IQVIA","NA",Replacer.ReplaceText,{"Channel"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","Not available for Cosumer Aisle IQVIA","NA",Replacer.ReplaceText,{"Channel"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","Not available for FrontShop IQVIA","NA",Replacer.ReplaceText,{"Channel"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","Item GTINs are not available for Backshop IQVIA","0",Replacer.ReplaceText,{"Item_gtin"}),
+				    #"Uppercased Text" = Table.TransformColumns(#"Replaced Value3",{{"DataType", Text.Upper, type text}, {"customer", Text.Upper, type text}, {"category", Text.Upper, type text}, {"Brand", Text.Upper, type text}, {"Item_gtin", Text.Upper, type text}, {"Product", Text.Upper, type text}, {"Segment", Text.Upper, type text}, {"Channel", Text.Upper, type text}}),
+				    #"Trimmed Text" = Table.TransformColumns(#"Uppercased Text",{{"DataType", Text.Trim, type text}, {"customer", Text.Trim, type text}, {"category", Text.Trim, type text}, {"Brand", Text.Trim, type text}, {"Item_gtin", Text.Trim, type text}, {"Product", Text.Trim, type text}, {"Segment", Text.Trim, type text}, {"Channel", Text.Trim, type text}}),
+				    
+				    // Adding the Unique Key
+				    #"Added Key" = Table.AddColumn(#"Trimmed Text", "Key", each 
+				        Text.Combine({
+				            Text.From([DataType]), 
+				            Text.From([Channel]), 
+				            Text.From([customer]), 
+				            Text.From([category]), 
+				            Text.From([Segment]), 
+				            Text.From([Brand]), 
+				            Text.From([Product]), 
+				            Text.From([Item_gtin])
+				        }, ""), type text),
+				    #"Removed Duplicates" = Table.Distinct(#"Added Key", {"Key"}),
+				    Custom1 = Table.AddColumn(#"Removed Duplicates", "TargetKey", each Text.Combine({
+				            Text.From([customer]),
+				            Text.From([Brand])
+				        }, "")),
+				    #"Added Conditional Column" = Table.AddColumn(Custom1, "Consumption Indicator", each if [DataType] = "SHIPMENTS" then "Non-consumption" else if [DataType] = "POS" then "Consumption" else null),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Added Conditional Column",{"TargetKey"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Other Columns",{{"TargetKey", "Key"}}),
+				    #"Appended Query" = Table.Combine({#"Renamed Columns", #"Target GIV Key", #"Target Vol Key"}),
+				    #"Removed Duplicates1" = Table.Distinct(#"Appended Query")
+				in
+				    #"Removed Duplicates1"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+
