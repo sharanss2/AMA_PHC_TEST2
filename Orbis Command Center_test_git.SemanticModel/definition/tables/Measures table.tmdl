@@ -11347,6 +11347,9 @@ table 'Measures table'
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure test_git = "static git"
+		lineageTag: eb0e510f-e7cf-4124-970e-cc0a3a3488bc
+
 	column Column
 		isHidden
 		formatString: 0
