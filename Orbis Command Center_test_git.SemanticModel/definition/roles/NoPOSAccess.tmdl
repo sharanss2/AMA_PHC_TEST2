@@ -1,7 +1,0 @@
-role NoPOSAccess
-	modelPermission: read
-
-	tablePermission pos_data_03
-
-	annotation PBI_Id = 69e70b25857941c6b4431ee4b09295a0
-
